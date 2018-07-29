@@ -19,8 +19,6 @@
 
 	<licence>GNU/GPL</licence>
 	<necessite nom="saisies" compatibilite="[2.4.0;]" /> 
-	
-	<utilise nom="vnumeros" />
 
 	<pipeline nom="autoriser" inclure="venvois_autorisations.php" /> 
 
