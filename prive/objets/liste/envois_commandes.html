@@ -1,0 +1,39 @@
+[(#SET{defaut_tri,#ARRAY{
+	descriptif,1,
+	date,-1,
+	id_envois_commande,1,
+	points,-1
+}})]<B_liste_envois_commandes>
+#ANCRE_PAGINATION
+<div class="liste-objets envois_commandes">
+<table class="spip liste">
+	[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{envois_commande:info_1_envois_commande,envois_commande:info_nb_envois_commandes}})</strong></caption>]
+	<thead>
+		<tr class="first_row">
+			<th class="picto" scope="col"></th>
+			<th class="statut" scope="col">[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
+			<th class="descriptif" scope="col">[(#TRI{descriptif,<:envois_commande:champ_descriptif_label:>,ajax})]</th>
+			<th class="date" scope="col">[(#TRI{date,<:date:>,ajax})]</th> 
+			<th class="id" scope="col">[(#TRI{id_envois_commande,<:info_numero_abbreviation:>,ajax})]</th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES){id_commande?}{id_mot?}{auteurs_liens.id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}{pagination #ENV{nb,10}}>
+		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
+			<td class="picto">[(#CHEMIN_IMAGE{envois_commande-16.png}|balise_img)]</td>
+			<td class="statut">[(#STATUT|puce_statut{envois_commande,#ID_ENVOIS_COMMANDE})]</td> 
+			<td class="descriptif principale">[(#LOGO_ENVOIS_COMMANDE|image_reduire{20,26})]<a href="[(#ID_ENVOIS_COMMANDE|generer_url_entite{envois_commande})]" title="<:info_numero_abbreviation|attribut_html:> #ID_ENVOIS_COMMANDE">#DESCRIPTIF #ID_COMMANDES_DETAIL</a></td>
+			<td class="date secondaire">[(#DATE|affdate_jourcourt)]</td> 
+			<td class="id">[(#AUTORISER{modifier,envois_commande,#ID_ENVOIS_COMMANDE}|?{
+				<a href="[(#URL_ECRIRE{envois_commande_edit,id_envois_commande=#ID_ENVOIS_COMMANDE})]">#ID_ENVOIS_COMMANDE</a>,
+				#ID_ENVOIS_COMMANDE
+			})]</td>
+		</tr>
+	</BOUCLE_liste_envois_commandes>
+	</tbody>
+</table>
+[<p class="pagination">(#PAGINATION{prive})</p>]
+</div>
+</B_liste_envois_commandes>[
+<div class="liste-objets envois_commandes caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>
+]<//B_liste_envois_commandes>
