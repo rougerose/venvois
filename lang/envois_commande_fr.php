@@ -10,13 +10,22 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// A
 	'ajouter_lien_envois_commande' => 'Ajouter cet envoi de commande',
+	
+	// B
+	'bouton_exporter' => "Exporter",
 
 	// C
 	'champ_date_envoi_label' => 'date_envoi',
 	'champ_date_label' => 'date',
 	'champ_descriptif_label' => 'descriptif',
 	'champ_id_commande_label' => 'id_commande',
+	'champ_no_commande_label' => 'N<sup>o</sup> cde',
+	'champ_detail_commande_descriptif_label' => 'N<sup>o</sup> Détail cde / Contexte',
+	'champ_id_auteur_label' => 'N<sup>o</sup> auteur / Nom Prénom',
 	'confirmer_supprimer_envois_commande' => 'Confirmez-vous la suppression de cet envoi de commande ?',
+	
+	// E
+	'exporter' => 'Exporter',
 
 	// I
 	'icone_creer_envois_commande' => 'Créer un envoi de commande',
@@ -24,7 +33,18 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_1_envois_commande' => 'Un envoi de commande',
 	'info_aucun_envois_commande' => 'Aucun envoi de commande',
 	'info_envois_commandes_auteur' => 'Les envois de commande de cet auteur',
+	'info_filtre_abandon' => 'Abandonnés',
+	'info_filtre_attente' => 'En attente',
+	'info_filtre_envoye' => 'Envoyés',
+	'info_filtre_prepa' => 'En préparation',
+	'info_filtre_tous' => 'Tous',
 	'info_nb_envois_commandes' => '@nb@ envois de commande',
+	
+	// N
+	'nom_objet_abonnements_offre' => 'Abonnement',
+	'nom_objet_rubrique' => 'Exemplaire (vente directe)',
+	'nom_objet_produit' => 'Cadeau d’abonnement',
+	'numero_abreviation' => 'N<sup>o</sup>',
 
 	// R
 	'retirer_lien_envois_commande' => 'Retirer cet envoi de commande',

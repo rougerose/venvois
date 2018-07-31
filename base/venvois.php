@@ -76,7 +76,7 @@ function venvois_declarer_tables_objets_sql($tables) {
 		'statut_images' => array(
 			'prepa'    => 'puce-preparer-8.png',
 			'attente'    => 'puce-proposer-8.png',
-			'actif'    => 'puce-publier-8.png',
+			'envoye'    => 'puce-publier-8.png',
 			'abandon'  => 'puce-refuser-8.png',
 			'poubelle' => 'puce-supprimer-8.png'
 		),

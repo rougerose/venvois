@@ -1,0 +1,10 @@
+<div class='onglets_simple clearfix'>
+	<ul>
+		<li>[(#SELF|parametre_url{statut|id_abonnement,'XXX'}|replace{XXX,''}|lien_ou_expose{<:envois_commande:info_filtre_tous:>, [(#ENV{statut}|non|et{#ENV{id_envois_commande,''}|non})], ajax})]</li>
+		<li>[(#SELF|parametre_url{statut,'prepa'}|lien_ou_expose{<:envois_commande:info_filtre_prepa:>,#ENV{statut}|=={prepa},ajax})]</li>
+		<li>[(#SELF|parametre_url{statut,'attente'}|lien_ou_expose{<:envois_commande:info_filtre_attente:>,#ENV{statut}|=={attente},ajax})]</li>
+		<li>[(#SELF|parametre_url{statut,'envoye'}|lien_ou_expose{<:envois_commande:info_filtre_envoye:>,#ENV{statut}|=={envoye},ajax})]</li>
+		<li>[(#SELF|parametre_url{statut,'abandon'}|lien_ou_expose{<:envois_commande:info_filtre_abandon:>, #ENV{statut}|=={abandon}, ajax})]</li>
+	</ul>
+</div>
+<INCLURE{fond=prive/objets/liste/envois_commandes, env, ajax, nb=#ENV{nb, 20}, sinon=<:envois_commande:info_aucun_envois_commande:>} />
