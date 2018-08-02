@@ -16,8 +16,9 @@
 				<th class="id_auteur" scope="col">[(#TRI{id_auteur,<:envois_commande:champ_id_auteur_label:>,ajax})]</th>
 				<th class="id_commande" scope="col">[(#TRI{id_commande,<:envois_commande:champ_no_commande_label:>,ajax})]</th>
 				<th class="detail_commande_descriptif" scope="col">[(#TRI{id_commandes_detail, <:envois_commande:champ_detail_commande_descriptif_label:>, ajax})]</th>
-				<th class="date" scope="col">[(#TRI{date,<:date:>,ajax})]</th>
-				<th class="selection" scope="col"><:envois_commande:exporter:></th>
+				<th class="date" scope="col">[(#TRI{date,<:envois_commande:champ_date_label:>,ajax})]</th>
+				<th class="date" scope="col">[(#TRI{date_envoi,<:envois_commande:champ_date_envoi_label:>,ajax})]</th>
+				<th class="selection" scope="col"><:envois_commande:exporter_destinataire:></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,9 +36,10 @@
 				<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">#ID_COMMANDE</a></td>
 				<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">[(#ID_COMMANDES_DETAIL)]</a> / <:envois_commande:nom_objet_{=#INFO_OBJET{commandes_detail, #ID_COMMANDES_DETAIL}}:></td>
 				<td class="date secondaire">[(#DATE|affdate_jourcourt)]</td>
+				<td class="date secondaire">[(#DATE_ENVOI|intval|>{0}|?{[(#DATE_ENVOI|affdate_jourcourt)],-})]</td>
 				<td class="selection">
 					<div class="choix">
-						<input type="checkbox" name="exporter_envois_commande\[\]" class="checkbox" id="champ_exporter_envoi_commandes#ID_ENVOIS_COMMANDE" value="#ID_ENVOIS_COMMANDE" />
+						<input type="checkbox" name="exporter_envois_commandes[]" class="checkbox" id="champ_exporter_envois_commandes_#ID_ENVOIS_COMMANDE" value="#ID_ENVOIS_COMMANDE" />
 					</div>
 				</td>
 			</tr>
@@ -45,29 +47,32 @@
 		</tbody>
 	</table>
 	[<p class="pagination">(#PAGINATION{prive})</p>]
-	<INCLURE{fond=prive/squelettes/inclure/export_envois_commandes, ajax=export, self=#SELF, env} />
+	<INCLURE{fond=prive/squelettes/inclure/export_envois_commandes, env} />
 	<script type="text/javascript">
 		/*<![CDATA[*/
 			(function($){
-				var _exporter = [];
+				var $todo = $('#js-export-todo'),
+					todos = [],
+					$liste = $('#liste_envois_commandes');
+				
+				// Au chargement de la page, décocher les cases qui le serait éventuellement
+				$liste.find("input[type='checkbox']").prop("checked", function(i, val){
+					if (val == true) {return !val;}
+				});
+				
+				// Stocker dans un hidden les id_envois_commande à exporter
 				$('#liste_envois_commandes').on('click', 'input', function(){
 					var val = $(this).val();
 					if ($(this).prop('checked')) {
-						_exporter.push(val);
+						todos.push(val);
 					} else {
-						var index = _exporter.indexOf(val);
-						if (index > - 1) {
-							_exporter.splice(index, 1);
+						var index = todos.indexOf(val);
+						if (index > -1) {
+							todos.splice(index, 1);
 						}
 					}
-					//console.log(exporter);
-					// console.log($(this), action);
-					ajaxReload(
-						'export', 
-						{
-							args: { exporter:_exporter }
-						}
-					);
+					_todos = JSON.stringify(todos);
+					$todo.val('').val(_todos);
 				});
 			})(jQuery);
 		/*]]>*/

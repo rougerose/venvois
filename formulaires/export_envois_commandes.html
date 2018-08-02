@@ -3,6 +3,7 @@
 	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
 	
 	<form method="post" action="#ENV{action}">
+	<input id="js-export-todo" type="hidden" name="todo" value="">
 	<div>
 		#ACTION_FORMULAIRE{#ENV{action}}
 		<div class="editer-groupe">

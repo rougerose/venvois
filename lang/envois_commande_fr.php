@@ -16,7 +16,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// C
 	'champ_date_envoi_label' => 'date_envoi',
-	'champ_date_label' => 'date',
+	'champ_date_label' => 'date de création',
 	'champ_descriptif_label' => 'descriptif',
 	'champ_id_commande_label' => 'id_commande',
 	'champ_no_commande_label' => 'N<sup>o</sup> cde',
@@ -25,7 +25,15 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'confirmer_supprimer_envois_commande' => 'Confirmez-vous la suppression de cet envoi de commande ?',
 	
 	// E
-	'exporter' => 'Exporter',
+	'exporter_destinataire' => 'Exporter',
+	
+	// F
+	'formulaire_export_explication' => "Veuillez sélectionner les envois que vous souhaiter exporter. 
+
+L'export permet d'obtenir : 
+-* les coordonnées postales du destinataire de la commande (fichier .csv)
+-* le changement automatique du statut de l'envoi (statut «Envoyé» au lieu de «En attente»).",
+	'formulaire_export_message_ok' => "L'export est prêt et le fichier .csv est <a href='@url@'>disponible ici</a>",
 
 	// I
 	'icone_creer_envois_commande' => 'Créer un envoi de commande',
