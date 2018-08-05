@@ -112,13 +112,13 @@ function formulaires_export_envois_commandes_traiter_dist() {
 				
 				// si la commande comporte d'autres articles
 				if ($envois_suivants) {
-					// produit ou rubrique
+					// produit ou rubrique ?
 					if ($detail['objet'] == 'produit' or $detail['objet'] == 'rubrique') {
 						$instituer_detail = true;
 						$instituer_commande = false;
 					}
 					
-					// abonnement
+					// abonnement ?
 					if ($detail['objet'] == 'abonnements_offre') {
 						
 						foreach ($envois_suivants as $k => $envoi_suivant) {
@@ -126,10 +126,12 @@ function formulaires_export_envois_commandes_traiter_dist() {
 							
 							if ($id_detail_envoi_suivant == $id_commandes_detail) {
 								// l'article suivant est lié au même abonnement
-								// que l'article en cours
+								// que l'article en cours, on ne change aucun
+								// statut.
 								$instituer_detail = false;
 								$instituer_commande = false;
 							} else {
+								// Changer uniquement le statut de l'article.
 								$instituer_detail = true;
 								$instituer_commande = false;
 							}
@@ -141,12 +143,14 @@ function formulaires_export_envois_commandes_traiter_dist() {
 					autoriser_exception('instituer', 'commandes_detail', $id_commandes_detail);
 					objet_modifier('commandes_detail', $id_commandes_detail, $set);
 					autoriser_exception('instituer', 'commandes_detail', $id_commandes_detail, false);
+					// TODO: envoyer un notification pour chaque article expédié ?
 				}
 				
 				if ($instituer_commande) {
 					autoriser_exception('instituer', 'commande', $id_commande);
 					objet_modifier('commande', $id_commande, $set);
 					autoriser_exception('instituer', 'commande', $id_commande, false);
+					// TODO: ou bien envoyer un notification uniquement pour l'ensemble de la commande ?
 				}
 			}
 		}
