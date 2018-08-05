@@ -59,13 +59,17 @@ function formulaires_export_envois_commandes_traiter_dist() {
 			$export_auteur['organisation'] = ($organisation_nom) ? $organisation_nom : '';
 			
 			// contact
-			$contact = sql_fetsel('civilite, nom, prenom', 'spip_contacts', 'id_auteur='.$id_auteur);
+			$contact = sql_fetsel('civilite, nom, prenom, organisation, service', 'spip_contacts', 'id_auteur='.$id_auteur);
 			if ($contact) {
+				$export_auteur['organisation'] = $contact['organisation'];
+				$export_auteur['service'] = $contact['service'];
 				$export_auteur['civilite'] = $contact['civilite'];
 				$export_auteur['nom'] = $contact['nom'];
 				$export_auteur['prenom'] = $contact['prenom'];
 			} else {
 				$auteur = sql_fetsel('*', 'spip_auteurs', 'id_auteur='.$id_auteur);
+				$export_auteur['organisation'] = $contact['organisation'];
+				$export_auteur['service'] = $contact['service'];
 				$export_auteur['civilite'] = '';
 				$export_auteur['nom'] = nom($auteur['nom']);
 				$export_auteur['prenom'] = prenom($auteur['nom']);
