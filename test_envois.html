@@ -1,1 +1,6 @@
 <h1>tests envois</h1>
+<B_abonnes>
+	#GRAND_TOTAL <br>
+<BOUCLE_abonnes(ABONNEMENTS){statut=actif}{numero_debut<=#ENV{numero}}{numero_fin>=#ENV{numero}}{par numero_debut}>
+#ID_ABONNEMENT - #NUMERO_DEBUT - #NUMERO_FIN <br>
+</BOUCLE_abonnes>

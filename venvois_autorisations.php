@@ -114,5 +114,5 @@ function autoriser_associerenvoiscommandes_dist($faire, $type, $id, $qui, $opt) 
 
 
 function autoriser_envoiscommande_instituer_dist($faire, $type, $id, $qui, $opt) {
-	return false;
+	return $qui['statut'] == '0minirezo' and !$qui['restreint'];
 }

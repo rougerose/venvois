@@ -33,7 +33,7 @@ function formulaires_export_envois_commandes_verifier_dist() {
 	$todo = (_request('todo')) ? json_decode(_request('todo')) : array();
 	
 	if (!count($todo)) {
-		$erreurs['message_erreur'] = 'erreur';
+		$erreurs['message_erreur'] = _T('envois_commande:formulaire_export_message_erreur_aucune_selection');
 	}
 
 	return $erreurs;
@@ -46,43 +46,19 @@ function formulaires_export_envois_commandes_traiter_dist() {
 	$res = array();
 	
 	$todo = json_decode(_request('todo'));
-	$export_auteur = array();
+	
+	$export_auteur = charger_fonction('auteur', 'exporter');
 	$export = array();
 	
 	foreach ($todo as $id_envois_commande) {
+		$id_envois_commande = intval($id_envois_commande);
 		$envois_commande = sql_fetsel('*', 'spip_envois_commandes', 'id_envois_commande='.$id_envois_commande);
 		
 		// Exporter les données relatives à l'auteur (destinataire de la commande)
 		if ($id_auteur = sql_getfetsel('id_auteur', 'spip_auteurs_liens', 'id_objet='.$id_envois_commande.' AND objet='.sql_quote('envois_commande'))) {
-			// organisation
-			$organisation_nom = sql_getfetsel('nom', 'spip_organisations', 'id_auteur='.$id_auteur);
-			$export_auteur['organisation'] = ($organisation_nom) ? $organisation_nom : '';
 			
-			// contact
-			$contact = sql_fetsel('civilite, nom, prenom, organisation, service', 'spip_contacts', 'id_auteur='.$id_auteur);
-			if ($contact) {
-				$export_auteur['organisation'] = $contact['organisation'];
-				$export_auteur['service'] = $contact['service'];
-				$export_auteur['civilite'] = $contact['civilite'];
-				$export_auteur['nom'] = $contact['nom'];
-				$export_auteur['prenom'] = $contact['prenom'];
-			} else {
-				$auteur = sql_fetsel('*', 'spip_auteurs', 'id_auteur='.$id_auteur);
-				$export_auteur['organisation'] = $contact['organisation'];
-				$export_auteur['service'] = $contact['service'];
-				$export_auteur['civilite'] = '';
-				$export_auteur['nom'] = nom($auteur['nom']);
-				$export_auteur['prenom'] = prenom($auteur['nom']);
-			}
-			
-			// adresse
-			$adresse_cles = array_flip(array('voie', 'complement', 'boite_postale', 'code_postal', 'ville', 'pays'));
-			$adresse = sql_fetsel('*', 'spip_adresses AS adresses INNER JOIN spip_adresses_liens AS L1 ON (L1.id_adresse = adresses.id_adresse)', 'L1.id_objet='.$id_auteur.' AND L1.objet='.sql_quote('auteur'));
-			foreach ($adresse_cles as $cle => $v) {
-				$export_auteur[$cle] = ($adresse[$cle]) ? $adresse[$cle] : '';
-			}
-			
-			$export[] = $export_auteur;
+			$export[] = $export_auteur($id_auteur);
+			 
 			
 			// Statut du détail de commande et éventuellement de la commande elle-même.
 			$id_commandes_detail = sql_getfetsel('id_objet', 'spip_envois_commandes_liens', 'objet='.sql_quote('commandes_detail').' AND id_envois_commande='.$id_envois_commande);

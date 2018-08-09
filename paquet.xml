@@ -29,5 +29,10 @@
 	<pipeline nom="affiche_auteurs_interventions" inclure="venvois_pipelines.php" /> 
 	<pipeline nom="optimiser_base_disparus" inclure="venvois_pipelines.php" />
 
-	<menu nom="envois_commandes" titre="envois_commande:titre_envois_commandes" parent="menu_activite" icone="images/envois_commande-16.png" action="envois_commandes" /> 
+	<menu nom="envois_commandes" titre="envois_commande:titre_envois_commandes" parent="menu_activite" icone="images/envois_commande-16.png" action="envois_commandes" />
+	<menu nom="envois_abonnements" titre="envois_commande:titre_envois_abonnements" parent="menu_activite" icone="images/envois_commande-16.png" action="envois_abonnements" />
+	
+	<spip compatibilite="[3.2.0;3.2.*]">
+		<style type="prive" source="css/venvois_prive.css" />
+	</spip>
 </paquet>

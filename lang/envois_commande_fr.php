@@ -33,7 +33,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 L'export permet d'obtenir : 
 -* les coordonnées postales du destinataire de la commande (fichier .csv)
 -* le changement automatique du statut de l'envoi (statut «Envoyé» au lieu de «En attente»).",
-	'formulaire_export_message_ok' => "L'export est prêt et le fichier .csv est <a href='@url@'>disponible ici</a>",
+
+	'formulaire_export_message_ok' => "Export réalisé. Le fichier .csv est <a href='@url@'>disponible ici</a>",
+	'formulaire_export_message_erreur' => "Impossible de créer le fichier d'export demandé.",
+	'formulaire_export_message_erreur_aucune_selection' => 'Aucune sélection à exporter',
 
 	// I
 	'icone_creer_envois_commande' => 'Créer un envoi de commande',
@@ -69,6 +72,7 @@ L'export permet d'obtenir :
 	'texte_statut_attente' => 'En attente',
 	'texte_statut_envoye' => 'Envoyé',
 	'texte_statut_abandon' => 'Abandonné',
+	'titre_envois_abonnements' => "Envois d'abonnements",
 	'titre_envois_commande' => 'Envois de commande',
 	'titre_envois_commandes' => 'Envois de commandes',
 	'titre_envois_commandes_rubrique' => 'Envois de commande de la rubrique',
