@@ -5,13 +5,13 @@
 	points,-1
 }})]<B_liste_envois_commandes>
 #ANCRE_PAGINATION
-<div class="liste-objets envois_commandes">
+<div class="liste-objets vacarme envois_commandes">
 	<table id="liste_envois_commandes" class="spip liste">
 		[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{envois_commande:info_1_envois_commande,envois_commande:info_nb_envois_commandes}})</strong></caption>]
 		<thead>
 			<tr class="first_row">
 				<th class="id_envois_commande" scope="col">[(#TRI{id_envois_commande, <:envois_commande:numero_abreviation:>, ajax})]</th>
-				<th class="statut" scope="col">[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
+				<th class="statut" scope="col">[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">Statut</span>,ajax})]</th> 
 				<th class="descriptif" scope="col">[(#TRI{descriptif,<:envois_commande:champ_descriptif_label:>,ajax})]</th>
 				<th class="id_auteur" scope="col">[(#TRI{id_auteur,<:envois_commande:champ_id_auteur_label:>,ajax})]</th>
 				<th class="id_commande" scope="col">[(#TRI{id_commande,<:envois_commande:champ_no_commande_label:>,ajax})]</th>
@@ -24,14 +24,11 @@
 		<tbody>
 		<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES envois_commandes_liens commandes_details){commandes_details.id_commandes_detail?}{id_commande?}{id_mot?}{auteurs_liens.id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}{pagination #ENV{nb,10}}>
 			<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
-				<td class="id_envois_commande">[
-					(#AUTORISER{voir,envois_commande,#ID_ENVOIS_COMMANDE}|?{
-						<a href="[(#ID_ENVOIS_COMMANDE|generer_url_entite{envois_commande})]">#ID_ENVOIS_COMMANDE</a>,
-						#ID_ENVOIS_COMMANDE
-					})
-				]</td>
-				<td class="statut">[(#STATUT|puce_statut{envois_commande,#ID_ENVOIS_COMMANDE})]</td> 
-				<td class="descriptif principale"><a href="[(#ID_ENVOIS_COMMANDE|generer_url_entite{envois_commande})]" title="<:info_numero_abbreviation|attribut_html:> #ID_ENVOIS_COMMANDE">#DESCRIPTIF*</a></td>
+				<td class="id_envois_commande">
+					#ID_ENVOIS_COMMANDE
+				</td>
+				<td class="[statut_(#STATUT)]"><:envois_commande:texte_statut_{=#STATUT}:></td>
+				<td class="descriptif principale">#DESCRIPTIF*</td>
 				<td class="secondaire"><a href="[(#URL_ECRIRE{auteur, id_auteur=#ID_AUTEUR})]">[(#ID_AUTEUR)[ / (#INFO_NOM{auteur, #ID_AUTEUR})]]</a></td>
 				<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">#ID_COMMANDE</a></td>
 				<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">[(#ID_COMMANDES_DETAIL)]</a> / <:envois_commande:nom_objet_{=#INFO_OBJET{commandes_detail, #ID_COMMANDES_DETAIL}}:></td>

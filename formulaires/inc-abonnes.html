@@ -14,7 +14,6 @@
 					<th class="numero_fin"><:abonnement:champ_numero_fin_label:></th>
 					<th class="paiement"><:abonnement:champ_mode_paiement_label:></th>
 					<th class="selection" scope="col"><:envois_commande:exporter_destinataire:>
-						<!-- <a href="[(#SELF)]" class="check-all-trigger js-check-all-trigger">\[<span class="check-all-is-checked">X</span><span class="check-all-is-unchecked">&nbsp;</span>\]</a> -->
 					</th>
 				</tr>
 			</thead>
@@ -46,7 +45,6 @@
 			(function($){
 				var $form = $(".formulaire_export_envois_abonnements"),
 					$checkboxs = $form.find('input[type=checkbox]'),
-					$trigger = $('.js-check-all-trigger'),
 					$hidden = $form.find('#js-hidden'),
 					_ids = [];
 
@@ -62,16 +60,6 @@
 					});
 				}
 				
-				// $trigger.click(function(e){
-				// 	e.preventDefault();
-				// 	$(this).toggleClass('is-checked');
-				// 	if ($(this).hasClass('is-checked')) {
-				// 		$checkboxs.prop('checked', true).change();
-				// 	} else {
-				// 		$checkboxs.prop('checked', false).change();
-				// 	}
-				// });
-				
 				$checkboxs.click(function(){
 					var val = $(this).val();
 					if ($(this).prop('checked')) {
@@ -85,18 +73,6 @@
 					var ids = JSON.stringify(_ids);
 					$hidden.val('').val(ids);
 				});
-				
-				// $checkboxs.change(function(){
-				// 	// ids.push($(this).val());
-				// 	// _ids = JSON.stringify(ids);
-				// 	// $hidden.val('').val(_ids);
-				// 	// if (!$form.find('> input.submit').length) {
-				// 	// 	$form.find('.boutons.action').slideDown()
-				// 	// 		.find('input.submit').clone().addClass('invisible')
-				// 	// 		.prependTo($form);
-				// 	// }
-				// });
-				
 			})(jQuery);
 		/*]]>*/
 		</script>

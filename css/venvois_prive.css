@@ -9,3 +9,18 @@
 	.boutons-envois.exporter .exporter-selection {
 		margin-right: 2em;
 	}
+
+
+/* Tableaux liste-objets.vacarme */
+	/* statuts */
+	.liste-objets.vacarme .statut_envoye {
+		background-color: #9dba00;
+	}
+	
+	.liste-objets.vacarme .statut_attente {
+		background-color: #f89058;
+	}
+	
+	.liste-objets.vacarme .statut_abandon {
+		background-color: #ff0000;
+	}
