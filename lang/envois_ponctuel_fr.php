@@ -15,11 +15,14 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'champ_date_label' => 'date',
 	'champ_descriptif_label' => 'descriptif',
 	'champ_titre_label' => 'titre',
-	'confirmer_supprimer_envois_ponctuel' => 'Confirmez-vous la suppression de cet envoi ponctuel ?',
+	'confirmer_supprimer_envois_ponctuel' => 'Confirmez-vous la suppression de cette liste ?',
 	'confirmer_dupliquer_envois_ponctuel' => "Cette liste d'envoi et tous les contacts qu'elle contient va être dupliquée",
 	
 	// D
-	'dupliquer_envois_ponctuel' => "Dupliquer cet envoi ponctuel",
+	'dupliquer_envois_ponctuel' => "Dupliquer cette liste",
+	
+	// E
+	'exporter_envois_ponctuel' => "Exporter cette liste",
 
 	// I
 	'icone_creer_envois_ponctuel' => 'Créer un envoi ponctuel',
@@ -36,7 +39,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'retirer_tous_liens_envois_ponctuels' => 'Retirer tous les envois ponctuels',
 
 	// S
-	'supprimer_envois_ponctuel' => 'Supprimer cet envoi ponctuel',
+	'supprimer_envois_ponctuel' => 'Supprimer cette liste',
 
 	// T
 	'texte_ajouter_envois_ponctuel' => 'Ajouter un envoi ponctuel',
