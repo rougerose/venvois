@@ -22,25 +22,25 @@
 			</tr>
 		</thead>
 		<tbody>
-		<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES envois_commandes_liens commandes_details){commandes_details.id_commandes_detail?}{id_commande?}{id_mot?}{auteurs_liens.id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}{pagination #ENV{nb,10}}>
-			<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
-				<td class="id_envois_commande">
-					#ID_ENVOIS_COMMANDE
-				</td>
-				<td class="[statut_(#STATUT)]"><:envois_commande:texte_statut_{=#STATUT}:></td>
-				<td class="descriptif principale">#DESCRIPTIF*</td>
-				<td class="secondaire"><a href="[(#URL_ECRIRE{auteur, id_auteur=#ID_AUTEUR})]">[(#ID_AUTEUR)[ / (#INFO_NOM{auteur, #ID_AUTEUR})]]</a></td>
-				<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">#ID_COMMANDE</a></td>
-				<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">[(#ID_COMMANDES_DETAIL)]</a> / <:envois_commande:nom_objet_{=#INFO_OBJET{commandes_detail, #ID_COMMANDES_DETAIL}}:></td>
-				<td class="date secondaire">[(#DATE|affdate_jourcourt)]</td>
-				<td class="date secondaire">[(#DATE_ENVOI|intval|>{0}|?{[(#DATE_ENVOI|affdate_jourcourt)],-})]</td>
-				<td class="selection">
-					<div class="choix">
-						<input type="checkbox" name="exporter_envois_commandes[]" class="checkbox" id="champ_exporter_envois_commandes_#ID_ENVOIS_COMMANDE" value="#ID_ENVOIS_COMMANDE" />
-					</div>
-				</td>
-			</tr>
-		</BOUCLE_liste_envois_commandes>
+			<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES envois_commandes_liens commandes_details){commandes_details.id_commandes_detail?}{id_commande?}{id_mot?}{auteurs_liens.id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}{pagination #ENV{nb,10}}>
+				<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
+					<td class="id_envois_commande">
+						#ID_ENVOIS_COMMANDE
+					</td>
+					<td class="[statut_(#STATUT)]"><:envois_commande:texte_statut_{=#STATUT}:></td>
+					<td class="descriptif principale">#DESCRIPTIF*</td>
+					<td class="secondaire"><a href="[(#URL_ECRIRE{auteur, id_auteur=#ID_AUTEUR})]">[(#ID_AUTEUR)[ / (#INFO_NOM{auteur, #ID_AUTEUR})]]</a></td>
+					<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">#ID_COMMANDE</a></td>
+					<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">[(#ID_COMMANDES_DETAIL)]</a> / <:envois_commande:nom_objet_{=#INFO_OBJET{commandes_detail, #ID_COMMANDES_DETAIL}}:></td>
+					<td class="date secondaire">[(#DATE|affdate_jourcourt)]</td>
+					<td class="date secondaire">[(#DATE_ENVOI|intval|>{0}|?{[(#DATE_ENVOI|affdate_jourcourt)],-})]</td>
+					<td class="selection">
+						<div class="choix">
+							<input type="checkbox" name="exporter_envois_commandes[]" class="checkbox" id="champ_exporter_envois_commandes_#ID_ENVOIS_COMMANDE" value="#ID_ENVOIS_COMMANDE" />
+						</div>
+					</td>
+				</tr>
+			</BOUCLE_liste_envois_commandes>
 		</tbody>
 	</table>
 	[<p class="pagination">(#PAGINATION{prive})</p>]

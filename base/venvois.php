@@ -26,6 +26,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 function venvois_declarer_tables_interfaces($interfaces) {
 
 	$interfaces['table_des_tables']['envois_commandes'] = 'envois_commandes';
+	$interfaces['table_des_tables']['envois_ponctuels'] = 'envois_ponctuels';
 
 	return $interfaces;
 }
@@ -90,8 +91,28 @@ function venvois_declarer_tables_objets_sql($tables) {
 			)
 		),
 		'texte_changer_statut' => 'envois_commande:texte_changer_statut_envois_commande',
-
-
+	);
+	
+	$tables['spip_envois_ponctuels'] = array(
+		'type' => 'envois_ponctuel',
+		'principale' => 'oui',
+		'table_objet_surnoms' => array('envoisponctuel'), // table_objet('envois_ponctuel') => 'envois_ponctuels' 
+		'field'=> array(
+			'id_envois_ponctuel' => 'bigint(21) NOT NULL',
+			'titre'              => 'text NOT NULL DEFAULT ""',
+			'descriptif'         => 'text NOT NULL DEFAULT ""',
+			'date'               => 'datetime NOT NULL DEFAULT "0000-00-00 00:00:00"',
+			'maj'                => 'TIMESTAMP'
+		),
+		'key' => array(
+			'PRIMARY KEY'        => 'id_envois_ponctuel',
+		),
+		'titre' => 'titre AS titre, "" AS lang',
+		'date' => 'date',
+		'champs_editables'  => array('titre', 'descriptif'),
+		'champs_versionnes' => array('titre', 'descriptif'),
+		'rechercher_champs' => array("titre" => 1, "descriptif" => 2),
+		'tables_jointures'  => array('spip_envois_ponctuels_liens'),
 	);
 
 	return $tables;
@@ -119,6 +140,19 @@ function venvois_declarer_tables_auxiliaires($tables) {
 		'key' => array(
 			'PRIMARY KEY'        => 'id_envois_commande,id_objet,objet',
 			'KEY id_envois_commande' => 'id_envois_commande',
+		)
+	);
+	
+	$tables['spip_envois_ponctuels_liens'] = array(
+		'field' => array(
+			'id_envois_ponctuel' => 'bigint(21) DEFAULT "0" NOT NULL',
+			'id_objet'           => 'bigint(21) DEFAULT "0" NOT NULL',
+			'objet'              => 'VARCHAR(25) DEFAULT "" NOT NULL',
+			'quantite'                 => 'tinyint(2) DEFAULT "0" NOT NULL',
+		),
+		'key' => array(
+			'PRIMARY KEY'        => 'id_envois_ponctuel,id_objet,objet',
+			'KEY id_envois_ponctuel' => 'id_envois_ponctuel',
 		)
 	);
 

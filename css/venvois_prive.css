@@ -24,3 +24,28 @@
 	.liste-objets.vacarme .statut_abandon {
 		background-color: #ff0000;
 	}
+
+	/* quantite */
+	.formulaire_spip .quantite .saisie_input {
+		padding-left: 0;
+		
+	}
+	
+	.quantite-input {
+		width: 3em;
+	}
+	
+	/* Eléments requis */
+	.requis > span {
+		display: inline-block;
+		padding: 3px;
+		border-radius: 3px;
+	}
+
+	.requis .present {
+		background-color: hsla(69, 100%, 36%);
+	}
+
+	.requis .absent {
+		background-color: #ff0000;
+	}

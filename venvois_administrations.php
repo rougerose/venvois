@@ -26,7 +26,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 function venvois_upgrade($nom_meta_base_version, $version_cible) {
 	$maj = array();
 
-	$maj['create'] = array(array('maj_tables', array('spip_envois_commandes', 'spip_envois_commandes_liens')));
+	$maj['create'] = array(array('maj_tables', array('spip_envois_commandes', 'spip_envois_commandes_liens', 'spip_envois_ponctuels', 'spip_envois_ponctuels_liens')));
 
 	include_spip('base/upgrade');
 	maj_plugin($nom_meta_base_version, $version_cible, $maj);
@@ -42,17 +42,20 @@ function venvois_upgrade($nom_meta_base_version, $version_cible) {
 **/
 function venvois_vider_tables($nom_meta_base_version) {
 
-	sql_drop_table('spip_envois_commandes');
-	sql_drop_table('spip_envois_commandes_liens');
+	//sql_drop_table('spip_envois_commandes');
+	//sql_drop_table('spip_envois_commandes_liens');
+	sql_drop_table('spip_envois_ponctuels');
+	sql_drop_table('spip_envois_ponctuels_liens');
 
 	# Nettoyer les liens courants (le génie optimiser_base_disparus se chargera de nettoyer toutes les tables de liens)
-	sql_delete('spip_documents_liens', sql_in('objet', array('envois_commande')));
-	sql_delete('spip_mots_liens', sql_in('objet', array('envois_commande')));
-	sql_delete('spip_auteurs_liens', sql_in('objet', array('envois_commande')));
+	// sql_delete('spip_documents_liens', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_mots_liens', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_auteurs_liens', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	sql_delete('spip_auteurs_liens', sql_in('objet', array('envois_ponctuel')));
 	# Nettoyer les versionnages et forums
-	sql_delete('spip_versions', sql_in('objet', array('envois_commande')));
-	sql_delete('spip_versions_fragments', sql_in('objet', array('envois_commande')));
-	sql_delete('spip_forum', sql_in('objet', array('envois_commande')));
+	// sql_delete('spip_versions', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_versions_fragments', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_forum', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
 
 	effacer_meta($nom_meta_base_version);
 }

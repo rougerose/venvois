@@ -14,4 +14,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	
 	// C
 	'champ_selection_numero_reference_label' => "Sélectionnez un numéro",
+	
+	// T
+	'titre_envois_abonnements' => "Envois d'abonnements",
 );

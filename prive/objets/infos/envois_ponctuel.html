@@ -1,0 +1,20 @@
+<BOUCLE_envois_ponctuel(ENVOIS_PONCTUELS){id_envois_ponctuel=#ENV{id}}>
+<div class="infos">
+[(#SET{texte_objet,<:envois_ponctuel:titre_envois_ponctuel:>})]
+<div class="numero"><:titre_cadre_numero_objet{objet=#GET{texte_objet}}:><p>#ID_ENVOIS_PONCTUEL</p></div>
+
+	<div class='nb_elements'><!--nb_elements--></div>
+
+	[(#AUTORISER{supprimer, envois_ponctuel, #ID_ENVOIS_PONCTUEL}|oui)
+		[(#BOUTON_ACTION{
+			[(#CHEMIN_IMAGE{envois_ponctuel-new-24.png}|balise_img{<:envois_ponctuel:dupliquer_envois_ponctuel:>}|concat{' ',#VAL{<:envois_ponctuel:dupliquer_envois_ponctuel:>}|wrap{<b>}}|trim)],
+			#URL_ACTION_AUTEUR{dupliquer_envois_ponctuel, #ID_ENVOIS_PONCTUEL-envois_ponctuel, #URL_ECRIRE{envois_ponctuel}|parametre_url{id_envois_ponctuel, #ID_ENVOIS_PONCTUEL}}, icone s24 horizontale envois_ponctuel-new-24, <:envois_ponctuel:confirmer_dupliquer_envois_ponctuel:>})]
+		<br/>
+		[(#BOUTON_ACTION{
+			[(#CHEMIN_IMAGE{envois_ponctuel-del-24.png}|balise_img{<:envois_ponctuel:supprimer_envois_ponctuel:>}|concat{' ',#VAL{<:envois_ponctuel:supprimer_envois_ponctuel:>}|wrap{<b>}}|trim)],
+			#URL_ACTION_AUTEUR{supprimer_envois_ponctuel, #ID_ENVOIS_PONCTUEL, #URL_ECRIRE{envois_ponctuels}},
+			icone s24 horizontale danger envois_ponctuel-del-24, <:envois_ponctuel:confirmer_supprimer_envois_ponctuel:>})]
+	]
+
+</div>
+</BOUCLE_envois_ponctuel>
