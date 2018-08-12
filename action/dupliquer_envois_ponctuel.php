@@ -6,7 +6,7 @@ if (!defined("_ECRIRE_INC_VERSION")) {
 
 
 function action_dupliquer_envois_ponctuel($id_objet = null, $objet = null) {
-	// appel direct depuis une url avec arg = "id-objet"
+	// appel direct depuis une url avec arg = "id-objet-objet"
 	if (is_null($id_objet) or is_null($objet)) {
 		$securiser_action = charger_fonction('securiser_action', 'inc');
 		$arg = $securiser_action();

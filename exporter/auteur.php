@@ -8,37 +8,42 @@ if (!defined("_ECRIRE_INC_VERSION")) {
 function exporter_auteur_dist($id_auteur = 0) {
 	$id_auteur = intval($id_auteur);
 	$export = array();
+	$export_organisation = array();
+	$export_contact = array();
+	$export_adresse = array();
 	
 	if (!$id_auteur) {
 		return '';
 	}
 	
 	// contact
-	$contact = sql_fetsel('civilite, nom, prenom, organisation, service', 'spip_contacts', 'id_auteur='.$id_auteur);
+	$contact = sql_fetsel('civilite, nom, prenom', 'spip_contacts', 'id_auteur='.$id_auteur);
 	
 	if ($contact) {
-		$export['organisation'] = $contact['organisation'];
-		$export['service'] = $contact['service'];
-		$export['civilite'] = $contact['civilite'];
-		$export['nom'] = $contact['nom'];
-		$export['prenom'] = $contact['prenom'];
+		$export_contact['civilite'] = ($contact['civilite']) ? _T('vprofils:info_civilite_'.$contact['civilite']) : ''; 
+		$export_contact['nom'] = $contact['nom'];
+		$export_contact['prenom'] = $contact['prenom'];
 	} else {
 		$auteur = sql_fetsel('*', 'spip_auteurs', 'id_auteur='.$id_auteur);
-		$export['organisation'] = '';
-		$export['service'] = '';
-		$export['civilite'] = '';
-		$export['nom'] = nom($auteur['nom']);
-		$export['prenom'] = prenom($auteur['nom']);
+		$export_contact['civilite'] = '';
+		$export_contact['nom'] = nom($auteur['nom']);
+		$export_contact['prenom'] = prenom($auteur['nom']);
 	}
 	
 	// adresse
-	$adresse_cles = array_flip(array('voie', 'complement', 'boite_postale', 'code_postal', 'ville', 'pays'));
+	$adresse_cles = array_flip(array('organisation', 'service', 'voie', 'complement', 'boite_postale', 'code_postal', 'ville', 'region', 'pays', 'code_facteur'));
 	
 	$adresse = sql_fetsel('*', 'spip_adresses AS adresses INNER JOIN spip_adresses_liens AS L1 ON (L1.id_adresse = adresses.id_adresse)', 'L1.id_objet='.$id_auteur.' AND L1.objet='.sql_quote('auteur'));
 	
+	$export_organisation['organisation'] = $adresse['organisation'];
+	$export_organisation['service'] = $adresse['service'];
+	unset($adresse_cles['organisation'], $adresse_cles['service']);
+	
 	foreach ($adresse_cles as $cle => $v) {
-		$export[$cle] = ($adresse[$cle]) ? $adresse[$cle] : '';
+		$export_adresse[$cle] = ($adresse[$cle]) ? $adresse[$cle] : '';
 	}
+	
+	$export = array_merge($export_organisation, $export_contact, $export_adresse);
 	
 	return $export;
 }

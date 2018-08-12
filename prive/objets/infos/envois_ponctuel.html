@@ -7,6 +7,10 @@
 
 	[(#AUTORISER{supprimer, envois_ponctuel, #ID_ENVOIS_PONCTUEL}|oui)
 		[(#BOUTON_ACTION{
+			[(#CHEMIN_IMAGE{envois_ponctuel-edit-24.png}|balise_img{<:envois_ponctuel:exporter_envois_ponctuel:>}|concat{' ',#VAL{<:envois_ponctuel:exporter_envois_ponctuel:>}|wrap{<b>}}|trim)],
+			#URL_ACTION_AUTEUR{exporter_envois_ponctuel, #ID_ENVOIS_PONCTUEL-envois_ponctuel, #URL_ECRIRE{envois_ponctuel}|parametre_url{id_envois_ponctuel, #ID_ENVOIS_PONCTUEL}}, icone s24 horizontale envois_ponctuel-edit-24})]
+		<br />
+		[(#BOUTON_ACTION{
 			[(#CHEMIN_IMAGE{envois_ponctuel-new-24.png}|balise_img{<:envois_ponctuel:dupliquer_envois_ponctuel:>}|concat{' ',#VAL{<:envois_ponctuel:dupliquer_envois_ponctuel:>}|wrap{<b>}}|trim)],
 			#URL_ACTION_AUTEUR{dupliquer_envois_ponctuel, #ID_ENVOIS_PONCTUEL-envois_ponctuel, #URL_ECRIRE{envois_ponctuel}|parametre_url{id_envois_ponctuel, #ID_ENVOIS_PONCTUEL}}, icone s24 horizontale envois_ponctuel-new-24, <:envois_ponctuel:confirmer_dupliquer_envois_ponctuel:>})]
 		<br/>

@@ -68,7 +68,9 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 		if (count($export)) {
 			$exporter_csv = charger_fonction('exporter_csv', 'inc');
 			$nom_fichier = 'envois-commandes_'.date('Ymd-His');
-			$url_fichier = $exporter_csv($nom_fichier, $export, ',', null, false);
+			$modele_entetes = charger_fonction('auteur_entetes', 'exporter');
+			$entetes = $modele_entetes();
+			$url_fichier = $exporter_csv($nom_fichier, $export, ',', $entetes, false);
 			
 			if ($url_fichier) {
 				$rep = sous_repertoire(_DIR_VAR, 'export_envois');
