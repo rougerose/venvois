@@ -32,23 +32,21 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 			include_spip('inc/vnumeros');
 			$numeros_debut_fin = array($abonnement['numero_debut'], $abonnement['numero_fin']);
 			$liste_numeros = vnumeros_lister($numeros_debut_fin);
-			
+		
 			autoriser_exception('creer', 'envois_commande', '');
-			
 			foreach ($liste_numeros as $numero => $rubrique) {
 				$set = array(
 					'id_commande' => intval($id_commande),
 					'descriptif' => generer_info_entite($rubrique['id_rubrique'], 'rubrique', 'titre'),
 					'statut' => 'attente'
 				);
-				
+		
 				$id_envois_commande = objet_inserer('envois_commande', '', $set);
 				objet_associer(
 					array('envois_commande' => $id_envois_commande), 
 					array('commandes_detail' => $detail['id_commandes_detail'])
 				);
 			}
-			
 			autoriser_exception('creer', 'envois_commande', '', false);
 		}
 		
@@ -58,7 +56,6 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 			$nb = $detail['quantite'];
 			
 			autoriser_exception('creer', 'envois_commande', '');
-			
 			while ($nb-->0){
 				$set = array(
 					'id_commande' => intval($id_commande),
@@ -71,7 +68,6 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 					array('commandes_detail' => $detail['id_commandes_detail'])
 				);
 			}
-			
 			autoriser_exception('creer', 'envois_commande', '', false);
 		}
 	}
