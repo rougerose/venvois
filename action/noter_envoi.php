@@ -31,7 +31,7 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 		) {
 			include_spip('inc/vnumeros');
 			$numeros_debut_fin = array($abonnement['numero_debut'], $abonnement['numero_fin']);
-			$liste_numeros = vnumeros_lister($numeros_debut_fin);
+			$liste_numeros = vnumeros_lister_disponibles($numeros_debut_fin);
 		
 			autoriser_exception('creer', 'envois_commande', '');
 			foreach ($liste_numeros as $numero => $rubrique) {

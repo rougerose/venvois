@@ -1,0 +1,39 @@
+<BOUCLE_tous(CONDITION){si #ENV{filtrer}|non}>
+	#SET{abonnements, #ARRAY}
+	<B_abonnements_tous>
+		<BOUCLE_abonnements_tous(ABONNEMENTS){statut IN actif, resilie}{numero_debut<=#ENV{numero_reference}}{numero_fin>=#ENV{numero_reference}}>
+			[(#SET{abonnements, #GET{abonnements}|push{#ID_ABONNEMENT}})]
+		</BOUCLE_abonnements_tous>
+		<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abonnements}, par=id_abonnement, env} />
+	</B_abonnements_tous>
+		#BOITE_OUVRIR{'','error'}
+		<p><:envois_abonnement:info_abonne_aucun:></p>
+		#BOITE_FERMER
+	<//B_abonnements_tous>
+</BOUCLE_tous>
+<BOUCLE_echeance(CONDITION){si #ENV{echeance}|oui}>
+	#SET{abonnements, #ARRAY}
+	<B_abonnements_echeance>
+		<BOUCLE_abonnements_echeance(ABONNEMENTS){statut IN actif, resilie}{numero_debut<=#ENV{numero_reference}}{numero_fin>=#ENV{numero_reference}}{numero_fin=#ENV{echeance}}>
+			[(#SET{abonnements, #GET{abonnements}|push{#ID_ABONNEMENT}})]
+		</BOUCLE_abonnements_echeance>
+		<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abonnements}, par=id_abonnement, env} />
+	</B_abonnements_echeance>
+		#BOITE_OUVRIR{'','error'}
+		<p><:envois_abonnement:info_abonne_aucun:></p>
+		#BOITE_FERMER
+	<//B_abonnements_echeance>
+</BOUCLE_echeance>
+<BOUCLE_hors_echeance(CONDITION){si #ENV{hors_echeance}|oui}>
+	#SET{abonnements, #ARRAY}
+	<B_abonnements_hors_echeance>
+		<BOUCLE_abonnements_hors_echeance(ABONNEMENTS){statut IN actif, resilie}{numero_debut<=#ENV{numero_reference}}{numero_fin>=#ENV{numero_reference}}{numero_fin!=#ENV{hors_echeance}}>
+			[(#SET{abonnements, #GET{abonnements}|push{#ID_ABONNEMENT}})]
+		</BOUCLE_abonnements_hors_echeance>
+		<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abonnements}, par=id_abonnement, env} />
+	</B_abonnements_hors_echeance>
+		#BOITE_OUVRIR{'','error'}
+		<p><:envois_abonnement:info_abonne_aucun:></p>
+		#BOITE_FERMER
+	<//B_abonnements_hors_echeance>
+</BOUCLE_hors_echeance>

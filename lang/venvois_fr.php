@@ -14,6 +14,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_auteur_code_facteur_abr' => "Code f.",
 	'info_auteur_code_facteur_absent' => "Auteur dont l'adresse est sans code facteur",
 	'info_auteur_code_facteur_present' => "Auteur dont l'adresse contient un code facteur",
+	'info_auteur_code_facteur_inutile' => "Auteur domicilié à l'étranger : code facteur inutile",
 	'info_auteur_contact_abr' => "Cont.",
 	'info_auteur_contact_absent' => "Auteur sans contact",
 	'info_auteur_contact_present' => "Auteur lié à un contact",

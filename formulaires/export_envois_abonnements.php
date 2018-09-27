@@ -6,9 +6,13 @@ if (!defined("_ECRIRE_INC_VERSION")) {
 
 
 function formulaires_export_envois_abonnements_charger_dist($redirect = '') {
-	$valeurs = array();
-	$valeurs['numero_reference'] = _request('numero_reference');
-	$valeurs['ids'] = _request('ids');
+	$valeurs = array(
+		'numero_reference' => _request('numero_reference'),
+		'ids' => _request('ids'),
+		'filtrer' => _request('filtrer'),
+		'echeance' => _request('echeance'),
+		'hors_echeance' => _request('hors_echeance')
+	);
 	
 	return $valeurs;
 }
@@ -37,7 +41,14 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 	$etape_export = false;
 	
 	if (_request('afficher_abonnes')) {
-		
+		if ($redirect) {
+			$redirection = parametre_url($redirect, 'filtrer', '');
+			$redirection = parametre_url($redirection, 'echeance', '');
+			$redirection = parametre_url($redirection, 'hors_echeance', '');
+			$redirection = parametre_url($redirection, 'numero_reference', $numero_reference);
+			$res['redirect'] = $redirection;
+		}
+
 	} elseif (_request('exporter_selection')) {
 		$etape_export = true;
 		$ids = (_request('ids')) ? json_decode(_request('ids')) : array();
@@ -46,44 +57,33 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 		$etape_export = true;
 		set_request('ids', '');
 		
-		$abonnements = sql_allfetsel('id_abonnement', 'spip_abonnements', 'statut='.sql_quote('actif').' AND numero_debut <='.sql_quote($numero_reference).' AND numero_fin >='.sql_quote($numero_reference), '', 'numero_debut');
+		$where = array(
+			'numero_debut <='.sql_quote($numero_reference),
+			'numero_fin >='.sql_quote($numero_reference),
+			sql_in('statut', array('actif', 'resilie'))
+		);
 		
-		foreach ($abonnements as $abonnement) {
-			$ids[] = $abonnement['id_abonnement'];
+		$filtrer = _request('filtrer');
+		$echeance = _request('echeance');
+		$hors_echeance = _request('hors_echeance');
+		
+		if ($filtrer) {
+			if ($echeance) {
+				$where[] = 'numero_fin ='.sql_quote($numero_reference);
+			}
+			
+			if ($hors_echeance) {
+				$where[] = 'numero_fin !='.sql_quote($numero_reference);
+			}
 		}
+		
+		$ids = sql_allfetsel('id_abonnement, id_auteur', 'spip_abonnements', $where);
 	}
 	
 	if ($etape_export and !count($ids)) {
 		return $res['message_erreur'] = _T('envois_commande:formulaire_export_message_erreur_aucune_selection');
-	} elseif ($etape_export) {
-		$export_auteur = charger_fonction('auteur', 'exporter');
-		$export = array();
-		
-		foreach ($ids as $id) {
-			$id_abonnement = intval($id);
-			$id_auteur = sql_getfetsel('id_auteur', 'spip_abonnements', 'id_abonnement='.$id_abonnement);
-			$export[] = $export_auteur($id_auteur);
-		}
-		
-		if (count($export)) {
-			$exporter_csv = charger_fonction('exporter_csv', 'inc');
-			$nom_fichier = 'envois-commandes_'.date('Ymd-His');
-			$modele_entetes = charger_fonction('auteur_entetes', 'exporter');
-			$entetes = $modele_entetes();
-			$url_fichier = $exporter_csv($nom_fichier, $export, ',', $entetes, false);
-			
-			if ($url_fichier) {
-				$rep = sous_repertoire(_DIR_VAR, 'export_envois');
-				$contenu = '';
-				$fichier = lire_fichier($url_fichier, $contenu);
-				$chemin = _DIR_VAR.'export_envois/'.$nom_fichier.'.csv';
-				if ($fichier and ecrire_fichier($chemin, $contenu)) {
-					$res['message_ok'] = _T('envois_commande:formulaire_export_message_ok', array('url' => $chemin));
-				} else {
-					$res['message_erreur'] = _T('envois_commande:formulaire_export_message_erreur');
-				}
-			}
-		}
+	} elseif($etape_export and count($ids)) {
+		exporter_abonnements($ids, $numero_reference);
 	}
 	
 	if ($redirect) {
@@ -92,4 +92,27 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 	
 	$res['editable'] = true;
 	return $res;
+}
+
+
+function exporter_abonnements($abonnements, $numero_reference) {
+	$export = array();
+	
+	$export_auteur = charger_fonction('auteur', 'exporter');
+	
+	foreach ($abonnements as $ids) {
+		$id_auteur = intval($ids['id_auteur']);
+		$export[] = $export_auteur($id_auteur);
+	}
+	
+	if (count($export)) {
+		$modele_entetes = charger_fonction('auteur_entetes', 'exporter');
+		$entetes = $modele_entetes();
+		
+		$titre_fichier = 'envois-abonnements_'.$numero_reference.'_'.date('Ymd-His');
+		
+		$exporter_csv = charger_fonction('exporter_csv', 'inc');
+		$exporter_csv($titre_fichier, $export, ',', $entetes, true);
+		// exit();
+	}
 }

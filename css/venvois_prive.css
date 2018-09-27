@@ -49,3 +49,7 @@
 	.requis .absent {
 		background-color: #ff0000;
 	}
+	
+	.requis .inutile {
+		background-color: #ccc;
+	}

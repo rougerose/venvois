@@ -18,7 +18,7 @@
 	<auteur lien='http://rouge-rose.net'>Christophe Le Drean</auteur>
 
 	<licence>GNU/GPL</licence>
-	<necessite nom="saisies" compatibilite="[2.4.0;]" /> 
+	<necessite nom="saisies" compatibilite="[2.4.0;]" />
 
 	<pipeline nom="autoriser" inclure="venvois_autorisations.php" /> 
 
