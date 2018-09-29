@@ -2,4 +2,6 @@
 <h1 class="grostitre"><:envois_commande:titre_envois_commandes:></h1>
 #FORMULAIRE_RECHERCHE_ECRIRE{#SELF, ajax}
 <div class='nettoyeur'></div>
-<INCLURE{fond=prive/squelettes/inclure/envois_commandes-filtres, statut=#ENV{statut}, env, ajax} />
+<div class="ajax">
+	#FORMULAIRE_EXPORT_ENVOIS_COMMANDES{#SELF, #ENV{statut}}
+</div>

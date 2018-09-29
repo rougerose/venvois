@@ -4,7 +4,6 @@
 	id_envois_commande,1,
 	points,-1
 }})]<B_liste_envois_commandes>
-#ANCRE_PAGINATION
 <div class="liste-objets vacarme envois_commandes">
 	<table id="liste_envois_commandes" class="spip liste">
 		[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{envois_commande:info_1_envois_commande,envois_commande:info_nb_envois_commandes}})</strong></caption>]
@@ -14,6 +13,7 @@
 				<th class="statut" scope="col">[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">Statut</span>,ajax})]</th> 
 				<th class="descriptif" scope="col">[(#TRI{descriptif,<:envois_commande:champ_descriptif_label:>,ajax})]</th>
 				<th class="id_auteur" scope="col">[(#TRI{id_auteur,<:envois_commande:champ_id_auteur_label:>,ajax})]</th>
+				<th class='requis'>Infos requises</th>
 				<th class="id_commande" scope="col">[(#TRI{id_commande,<:envois_commande:champ_no_commande_label:>,ajax})]</th>
 				<th class="detail_commande_descriptif" scope="col">[(#TRI{id_commandes_detail, <:envois_commande:champ_detail_commande_descriptif_label:>, ajax})]</th>
 				<th class="date" scope="col">[(#TRI{date,<:envois_commande:champ_date_label:>,ajax})]</th>
@@ -22,7 +22,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES envois_commandes_liens commandes_details){commandes_details.id_commandes_detail?}{id_commande?}{id_mot?}{auteurs_liens.id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}{pagination #ENV{nb,10}}>
+			<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES envois_commandes_liens commandes_details){commandes_details.id_commandes_detail?}{id_commande?}{id_mot?}{auteurs_liens.id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}>
 				<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
 					<td class="id_envois_commande">
 						#ID_ENVOIS_COMMANDE
@@ -30,50 +30,18 @@
 					<td class="[statut_(#STATUT)]"><:envois_commande:texte_statut_{=#STATUT}:></td>
 					<td class="descriptif principale">#DESCRIPTIF*</td>
 					<td class="secondaire"><a href="[(#URL_ECRIRE{auteur, id_auteur=#ID_AUTEUR})]">[(#ID_AUTEUR)[ / (#INFO_NOM{auteur, #ID_AUTEUR})]]</a></td>
+					<td class="requis">#INCLURE{fond=prive/squelettes/inclure/export-auteur-requis, id_auteur}</td>
 					<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">#ID_COMMANDE</a></td>
 					<td class="secondaire"><a href="[(#URL_ECRIRE{commande, id_commande=#ID_COMMANDE})]">[(#ID_COMMANDES_DETAIL)]</a> / <:envois_commande:nom_objet_{=#INFO_OBJET{commandes_detail, #ID_COMMANDES_DETAIL}}:></td>
 					<td class="date secondaire">[(#DATE|affdate_jourcourt)]</td>
 					<td class="date secondaire">[(#DATE_ENVOI|intval|>{0}|?{[(#DATE_ENVOI|affdate_jourcourt)],-})]</td>
 					<td class="selection">
-						<div class="choix">
-							<input type="checkbox" name="exporter_envois_commandes[]" class="checkbox" id="champ_exporter_envois_commandes_#ID_ENVOIS_COMMANDE" value="#ID_ENVOIS_COMMANDE" />
-						</div>
+						<input type="checkbox" name="exporter_envois_commandes[]" class="checkbox" id="champ_exporter_envois_commandes_#ID_ENVOIS_COMMANDE" value="#ID_ENVOIS_COMMANDE" />
 					</td>
 				</tr>
 			</BOUCLE_liste_envois_commandes>
 		</tbody>
 	</table>
-	[<p class="pagination">(#PAGINATION{prive})</p>]
-	<INCLURE{fond=prive/squelettes/inclure/export_envois_commandes, env} />
-	<script type="text/javascript">
-		/*<![CDATA[*/
-			(function($){
-				var $todo = $('#js-export-todo'),
-					todos = [],
-					$liste = $('#liste_envois_commandes');
-				
-				// Au chargement de la page, décocher les cases qui le serait éventuellement
-				$liste.find("input[type='checkbox']").prop("checked", function(i, val){
-					if (val == true) {return !val;}
-				});
-				
-				// Stocker dans un hidden les id_envois_commande à exporter
-				$('#liste_envois_commandes').on('click', 'input', function(){
-					var val = $(this).val();
-					if ($(this).prop('checked')) {
-						todos.push(val);
-					} else {
-						var index = todos.indexOf(val);
-						if (index > -1) {
-							todos.splice(index, 1);
-						}
-					}
-					_todos = JSON.stringify(todos);
-					$todo.val('').val(_todos);
-				});
-			})(jQuery);
-		/*]]>*/
-	</script>
 </div>
 </B_liste_envois_commandes>
 	[<div class="liste-objets envois_commandes caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>]
