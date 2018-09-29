@@ -50,6 +50,7 @@ function venvois_declarer_tables_objets_sql($tables) {
 		'field'=> array(
 			'id_envois_commande' => 'bigint(21) NOT NULL',
 			'id_commande'        => 'bigint(21) NOT NULL DEFAULT 0',
+			'id_auteur' => 'bigint(21) NOT NULL DEFAULT 0',
 			'date'               => 'datetime NOT NULL DEFAULT "0000-00-00 00:00:00"',
 			'date_envoi'         => 'datetime NOT NULL DEFAULT "0000-00-00 00:00:00"',
 			'descriptif'         => 'text NOT NULL DEFAULT ""',

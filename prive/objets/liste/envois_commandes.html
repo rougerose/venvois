@@ -22,7 +22,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES envois_commandes_liens commandes_details){commandes_details.id_commandes_detail?}{id_commande?}{id_mot?}{auteurs_liens.id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}>
+			<BOUCLE_liste_envois_commandes(ENVOIS_COMMANDES envois_commandes_liens commandes_details){commandes_details.id_commandes_detail?}{id_commande?}{id_mot?}{id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num descriptif},#GET{defaut_tri}}{par descriptif}>
 				<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
 					<td class="id_envois_commande">
 						#ID_ENVOIS_COMMANDE

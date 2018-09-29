@@ -16,6 +16,8 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 			'id_commande='.intval($id_commande).' AND objet='.sql_quote($objet).' AND id_objet='.intval($id_objet)
 		)
 	) {
+		$id_auteur = sql_getfetsel('id_auteur', 'spip_commandes', 'id_commande='.intval($id_commande));
+		
 		include_spip('inc/autoriser');
 		include_spip('action/editer_objet');
 		include_spip('action/editer_liens');
@@ -40,11 +42,15 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 					'descriptif' => generer_info_entite($rubrique['id_rubrique'], 'rubrique', 'titre'),
 					'statut' => 'attente'
 				);
-		
-				$id_envois_commande = objet_inserer('envois_commande', '', $set);
+				
+				$id_envois_commande = objet_inserer('envois_commande', null, $set);
 				objet_associer(
 					array('envois_commande' => $id_envois_commande), 
 					array('commandes_detail' => $detail['id_commandes_detail'])
+				);
+				objet_associer(
+					array('envois_commande' => $id_envois_commande), 
+					array('auteur' => $id_auteur)
 				);
 			}
 			autoriser_exception('creer', 'envois_commande', '', false);
@@ -62,10 +68,15 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 					'descriptif' => generer_info_entite(intval($id_objet), $objet, 'titre'),
 					'statut' => 'attente'
 				);
-				$id_envois_commande = objet_inserer('envois_commande', '', $set);
+				$id_envois_commande = objet_inserer('envois_commande', null, $set);
+				//objet_associer(array('auteur' => $id_auteur), array('envois_commande' => $id_envois_commande));
 				objet_associer(
 					array('envois_commande' => $id_envois_commande), 
 					array('commandes_detail' => $detail['id_commandes_detail'])
+				);
+				objet_associer(
+					array('envois_commande' => $id_envois_commande),
+					array('auteur' => $id_auteur)
 				);
 			}
 			autoriser_exception('creer', 'envois_commande', '', false);

@@ -6,16 +6,17 @@ if (!defined("_ECRIRE_INC_VERSION")) {
 
 
 
-function formulaires_export_envois_commandes_charger_dist($redirect = '', $statut = '') {
+function formulaires_export_envois_commandes_charger_dist($redirect = '', $statut = '', $tri = '') {
 	$valeurs = array();	
 	$valeurs['statut'] = $statut;
+	$valeurs['tri_liste_envois_commandes'] = $tri;
 	$valeurs['exporter_envois_commandes'] = _request('exporter_envois_commandes');
 	return $valeurs;
 }
 
 
 
-function formulaires_export_envois_commandes_verifier_dist($redirect = '', $statut = '') {
+function formulaires_export_envois_commandes_verifier_dist($redirect = '', $statut = '', $tri = '') {
 	$erreurs = array();
 	
 	$ids_envois = _request('exporter_envois_commandes');
@@ -28,7 +29,7 @@ function formulaires_export_envois_commandes_verifier_dist($redirect = '', $stat
 }
 
 
-function formulaires_export_envois_commandes_traiter_dist($redirect = '', $statut = '') {
+function formulaires_export_envois_commandes_traiter_dist($redirect = '', $statut = '', $tri = '') {
 	$res = array();
 	
 	// if ($redirect) {
