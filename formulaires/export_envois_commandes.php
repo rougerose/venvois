@@ -138,7 +138,12 @@ function export_envois_commandes_traiter_commande($envois_commande) {
 			autoriser_exception('instituer', 'commande', $id_commande);
 			objet_modifier('commande', $id_commande, $set);
 			autoriser_exception('instituer', 'commande', $id_commande, false);
-			// TODO: ou bien envoyer un notification uniquement pour l'ensemble de la commande ?
+			
+			$notifications = charger_fonction('notifications', 'inc');
+			// pour le client
+			$notifications('commande_client_envoye', $id_commande);
+			// pour Vacarme
+			$notifications('commande_vendeur_envoye', $id_commande);
 		}
 	}
 }
