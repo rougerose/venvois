@@ -22,6 +22,7 @@ function exporter_auteur_entetes_dist() {
 		_T('vprofils:formulaire_ville_label'), // ville
 		_T('vprofils:formulaire_region_label'), // région ou état
 		_T('vprofils:formulaire_pays_label'), // pays
-		_T('vprofils:formulaire_code_facteur_label') // code facteur
+		_T('vprofils:formulaire_code_facteur_label'), // code facteur
+		'email'
 	);
 }

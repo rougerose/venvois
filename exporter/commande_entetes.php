@@ -23,6 +23,7 @@ function exporter_commande_entetes_dist() {
 		_T('vprofils:formulaire_region_label'), // région ou état
 		_T('vprofils:formulaire_pays_label'), // pays
 		_T('vprofils:formulaire_code_facteur_label'), // code facteur
-		_T('envois_commande:info_article_commande')
+		'email',
+		_T('envois_commande:info_article_commande'), // article à envoyer
 	);
 }

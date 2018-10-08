@@ -55,7 +55,9 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 
 	} elseif (_request('exporter_selection')) {
 		$etape_export = true;
-		$ids = (_request('ids')) ? json_decode(_request('ids')) : array();
+		$ids_abonnement = (_request('ids')) ? json_decode(_request('ids')) : array();
+		$in = sql_in('id_abonnement', $ids_abonnement);
+		$ids = sql_allfetsel('id_abonnement, id_auteur', 'spip_abonnements', $in);
 		
 	} elseif (_request('exporter_tout')) {
 		$etape_export = true;

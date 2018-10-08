@@ -45,9 +45,10 @@ function formulaires_export_envois_commandes_traiter_dist($redirect = '', $statu
 		$envois_commande = sql_fetsel('*', 'spip_envois_commandes', 'id_envois_commande='.intval($id_envois_commande));
 		if ($envois_commande) {
 			export_envois_commandes_traiter_commande($envois_commande);
+			$id_auteur = $envois_commande['id_auteur'];
 		}
 		
-		if ($id_auteur = sql_getfetsel('id_auteur', 'spip_auteurs_liens', 'id_objet='.$id_envois_commande.' AND objet='.sql_quote('envois_commande'))) {
+		if ($id_auteur) {
 			$export[$id_envois_commande] = $exporter_auteur($id_auteur);
 			$export[$id_envois_commande]['descriptif'] = $envois_commande['descriptif'];
 		}
