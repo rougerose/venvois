@@ -39,6 +39,7 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 			foreach ($liste_numeros as $numero => $rubrique) {
 				$set = array(
 					'id_commande' => intval($id_commande),
+					'id_auteur' => intval($id_auteur),
 					'descriptif' => generer_info_entite($rubrique['id_rubrique'], 'rubrique', 'titre'),
 					'statut' => 'attente'
 				);
@@ -65,6 +66,7 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 			while ($nb-->0){
 				$set = array(
 					'id_commande' => intval($id_commande),
+					'id_auteur' => intval($id_auteur),
 					'descriptif' => generer_info_entite(intval($id_objet), $objet, 'titre'),
 					'statut' => 'attente'
 				);
