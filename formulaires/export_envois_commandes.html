@@ -1,0 +1,16 @@
+<div class="formulaire_spip formulaire_configurer formulaire_#FORM">
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV*{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+	[(#ENV{editable})
+	<form method="post" action="#ENV{action}">
+	<div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<INCLURE{fond=prive/squelettes/inclure/envois_commandes-filtres, env} />
+		<div class="editer-groupe">
+			[(#SET{txt, <:envois_commande:formulaire_export_explication:>})]
+			[(#SAISIE{explication, info_export, texte=#GET{txt}})]
+		</div>
+		<p class="boutons"><span class="image_loading">&nbsp;</span><input type="submit" class="submit" value="<:envois_commande:bouton_exporter:>" /></p>
+	</div>
+	</form>]
+</div>

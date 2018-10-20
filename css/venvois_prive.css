@@ -1,0 +1,55 @@
+/* Styles privés */
+
+
+/* Formulaire export envois abonnements */
+
+	/* Boutons */
+	.boutons-envois {}
+	
+	.boutons-envois.exporter .exporter-selection {
+		margin-right: 2em;
+	}
+
+
+/* Tableaux liste-objets.vacarme */
+	/* statuts */
+	.liste-objets.vacarme .statut_envoye {
+		background-color: #9dba00;
+	}
+	
+	.liste-objets.vacarme .statut_attente {
+		background-color: #f89058;
+	}
+	
+	.liste-objets.vacarme .statut_abandon {
+		background-color: #ff0000;
+	}
+
+	/* quantite */
+	.formulaire_spip .quantite .saisie_input {
+		padding-left: 0;
+		
+	}
+	
+	.quantite-input {
+		width: 3em;
+	}
+	
+	/* Eléments requis */
+	.requis > span {
+		display: inline-block;
+		padding: 3px;
+		border-radius: 3px;
+	}
+
+	.requis .present {
+		background-color: hsl(69, 100%, 36%);
+	}
+
+	.requis .absent {
+		background-color: #ff0000;
+	}
+	
+	.requis .inutile {
+		background-color: #ccc;
+	}

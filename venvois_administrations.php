@@ -1,0 +1,76 @@
+<?php
+/**
+ * Fichier gérant l'installation et désinstallation du plugin Envois
+ *
+ * @plugin     Envois
+ * @copyright  2018
+ * @author     Christophe Le Drean
+ * @licence    GNU/GPL
+ * @package    SPIP\Venvois\Installation
+ */
+
+if (!defined('_ECRIRE_INC_VERSION')) {
+	return;
+}
+
+
+/**
+ * Fonction d'installation et de mise à jour du plugin Envois.
+ *
+ * @param string $nom_meta_base_version
+ *     Nom de la meta informant de la version du schéma de données du plugin installé dans SPIP
+ * @param string $version_cible
+ *     Version du schéma de données dans ce plugin (déclaré dans paquet.xml)
+ * @return void
+**/
+function venvois_upgrade($nom_meta_base_version, $version_cible) {
+	$maj = array();
+
+	$maj['create'] = array(array('maj_tables', array('spip_envois_commandes', 'spip_envois_commandes_liens', 'spip_envois_ponctuels', 'spip_envois_ponctuels_liens')));
+	
+	$maj['1.0.1'] = array(
+		array('maj_tables', array('spip_envois_commandes')),
+		array('venvois_upgrade_101')
+	);
+
+	include_spip('base/upgrade');
+	maj_plugin($nom_meta_base_version, $version_cible, $maj);
+}
+
+
+/**
+ * Fonction de désinstallation du plugin Envois.
+ *
+ * @param string $nom_meta_base_version
+ *     Nom de la meta informant de la version du schéma de données du plugin installé dans SPIP
+ * @return void
+**/
+function venvois_vider_tables($nom_meta_base_version) {
+
+	//sql_drop_table('spip_envois_commandes');
+	//sql_drop_table('spip_envois_commandes_liens');
+	// sql_drop_table('spip_envois_ponctuels');
+	// sql_drop_table('spip_envois_ponctuels_liens');
+
+	# Nettoyer les liens courants (le génie optimiser_base_disparus se chargera de nettoyer toutes les tables de liens)
+	// sql_delete('spip_documents_liens', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_mots_liens', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_auteurs_liens', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	//sql_delete('spip_auteurs_liens', sql_in('objet', array('envois_ponctuel')));
+	# Nettoyer les versionnages et forums
+	// sql_delete('spip_versions', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_versions_fragments', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+	// sql_delete('spip_forum', sql_in('objet', array('envois_commande', 'envois_ponctuel')));
+
+	effacer_meta($nom_meta_base_version);
+}
+
+
+function venvois_upgrade_101() {
+	if ($envois = sql_allfetsel('id_commande, id_envois_commande', 'spip_envois_commandes')) {
+		foreach ($envois as $envoi) {
+			$id_auteur = sql_getfetsel('id_auteur', 'spip_commandes', 'id_commande='.intval($envoi['id_commande']));
+			sql_updateq('spip_envois_commandes', array('id_auteur' => intval($id_auteur)), 'id_envois_commande='.intval($envoi['id_envois_commande']));
+		}
+	}
+}

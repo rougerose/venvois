@@ -1,0 +1,7 @@
+[(#AUTORISER{menu,_envoiscommandes}|sinon_interdire_acces)]
+<h1 class="grostitre"><:envois_commande:titre_envois_commandes:></h1>
+#FORMULAIRE_RECHERCHE_ECRIRE{#SELF, ajax}
+<div class='nettoyeur'></div>
+<div class="ajax">
+	#FORMULAIRE_EXPORT_ENVOIS_COMMANDES{#SELF, #ENV{statut}, #ENV{tri_liste_envois_commandes}}
+</div>

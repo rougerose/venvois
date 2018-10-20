@@ -1,0 +1,37 @@
+#SET{_numeros, #ARRAY} #SET{numeros, #ARRAY}
+<BOUCLE_numero_debut(ABONNEMENTS){statut IN actif, resilie}{par numero_debut}{0,1}>
+	[(#SET{_numeros, #GET{_numeros}|push{#NUMERO_DEBUT}})]
+</BOUCLE_numero_debut><BOUCLE_numero_fin(ABONNEMENTS){statut IN actif, resilie}{!par numero_fin}{0,1}>
+	[(#SET{_numeros, #GET{_numeros}|push{#NUMERO_FIN}})]
+</BOUCLE_numero_fin>
+[(#SET{numeros, #GET{_numeros}|numeros_liste_intervalles})]
+
+#ENV{ids_abonnement}
+
+<div class='formulaire_spip formulaire_#FORM'>
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+	[(#ENV{editable})
+	<form method="post" action="#ENV{action}"><div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input id="ids" type="hidden" name="ids" value="">
+		<div class="editer-groupe">
+			[(#SAISIE{selection, numero_reference,
+				label=<:envois_abonnement:champ_selection_numero_reference_label:>,
+				datas=#GET{numeros}})]
+		</div>
+		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+		<!--extra-->
+		<p class="boutons boutons-envois afficher">
+			<input type="submit" name="afficher_abonnes" class="submit" value="<:envois_abonnement:bouton_afficher_abonnes:>" />
+		</p>
+		[(#ENV{numero_reference}|oui)
+			<INCLURE{fond=formulaires/inc-filtres-export-abonnes, numero_reference=#ENV{numero_reference}, ajax, env} />
+			<p class="boutons boutons-envois exporter">
+				<input type="submit" name="exporter_selection" class="submit exporter-selection" value="<:envois_abonnement:bouton_exporter_selection:>" />
+				<input type="submit" name="exporter_tout" class="submit exporter-tout" value="<:envois_abonnement:bouton_exporter_tout:>" />
+			</p>
+		]
+	</div></form>
+	]
+</div>

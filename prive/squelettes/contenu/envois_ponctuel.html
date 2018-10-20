@@ -1,0 +1,62 @@
+[(#AUTORISER{voir,envois_ponctuel,#ID_ENVOIS_PONCTUEL}|sinon_interdire_acces)]
+[(#SET{url_voir,#VAL{envois_ponctuel}|objet_info{url_voir}})]
+[(#SET{url_edit,#VAL{envois_ponctuel}|objet_info{url_edit}})]
+<BOUCLE_envois_ponctuel(ENVOIS_PONCTUELS){id_envois_ponctuel}{si #ENV{exec}|=={#GET{url_voir}}}>
+[(#BOITE_OUVRIR{[
+	[(#AUTORISER{modifier,envois_ponctuel,#ID_ENVOIS_PONCTUEL})
+		[(#ID_ENVOIS_PONCTUEL|afficher_qui_edite{envois_ponctuel}|non)
+			[(#URL_ECRIRE{#GET{url_edit},id_envois_ponctuel=#ID_ENVOIS_PONCTUEL}|icone_verticale{<:envois_ponctuel:icone_modifier_envois_ponctuel:>,envois_ponctuel,edit,right ajax preload})]
+		]
+		[(#ID_ENVOIS_PONCTUEL|afficher_qui_edite{envois_ponctuel}|oui)
+			[(#URL_ECRIRE{#GET{url_edit},id_envois_ponctuel=#ID_ENVOIS_PONCTUEL}|icone_verticale{#ID_ENVOIS_PONCTUEL|afficher_qui_edite{envois_ponctuel},warning-24,'',right edition_deja ajax preload})]
+		]
+	]
+
+	<h1>[(#RANG). ](#TITRE|sinon{<:info_sans_titre:>})[(#CHEMIN_IMAGE{envois_ponctuel-24.png}|balise_img{envois_ponctuel,cadre-icone})]</h1>
+
+],simple fiche_objet})]
+
+<div class="ajax">
+	#FORMULAIRE_DATER{envois_ponctuel,#ID_ENVOIS_PONCTUEL}
+</div>
+
+<div class="ajax">
+	[(#FORMULAIRE_EDITER_LIENS{envois_ponctuels, #ID_ENVOIS_PONCTUEL, auteurs})]
+</div>
+
+<!--affiche_milieu-->
+
+<div id="wysiwyg">
+<INCLURE{fond=prive/objets/contenu/envois_ponctuel,id=#ID_ENVOIS_PONCTUEL,id_envois_ponctuel=#ID_ENVOIS_PONCTUEL,virtuel=oui,ajax=wysiwyg,wysiwyg=1}>
+</div>
+
+<div class="nettoyeur"></div>
+
+[(#AUTORISER{modifier,envois_ponctuel,#ID_ENVOIS_PONCTUEL})
+	[(#ID_ENVOIS_PONCTUEL|afficher_qui_edite{envois_ponctuel}|non)
+		[(#URL_ECRIRE{#GET{url_edit},id_envois_ponctuel=#ID_ENVOIS_PONCTUEL}|icone_verticale{<:envois_ponctuel:icone_modifier_envois_ponctuel:>,envois_ponctuel,edit,right ajax preload})]
+	]
+	[(#ID_ENVOIS_PONCTUEL|afficher_qui_edite{envois_ponctuel}|oui)
+		[(#URL_ECRIRE{#GET{url_edit},id_envois_ponctuel=#ID_ENVOIS_PONCTUEL}|icone_verticale{#ID_ENVOIS_PONCTUEL|afficher_qui_edite{envois_ponctuel},warning-24,'',right edition_deja ajax preload})]
+	]
+]
+
+<div class="nettoyeur"></div>
+
+#PIPELINE{afficher_complement_objet,#ARRAY{args,#ARRAY{type,envois_ponctuel,id,#ID_ENVOIS_PONCTUEL},data,'<div class="nettoyeur"></div>'}}
+
+#BOITE_FERMER
+
+
+#SET{enfants,''}
+[(#VAL{prive/objets/contenu/envois_ponctuel-enfants}|trouver_fond|oui)
+	[(#SET{enfants,[(#INCLURE{fond=prive/objets/contenu/envois_ponctuel-enfants,id_envois_ponctuel,env})]})]
+]
+[(#PIPELINE{affiche_enfants,[(#ARRAY{args,#ARRAY{exec,envois_ponctuel,id_envois_ponctuel,#ID_ENVOIS_PONCTUEL,objet,envois_ponctuel,id_objet,#ID_ENVOIS_PONCTUEL},data,#GET{enfants}})]})]
+
+[(#EVAL{_AJAX}|oui)
+	<script type="text/javascript">/*<!\\[CDATA\\[*/reloadExecPage('#ENV{exec}','#navigation,#chemin,#extra');/*\\]\\]>*/</script>
+]
+</BOUCLE_envois_ponctuel>
+[(#ENV**{exec}|=={#GET{url_edit}}|?{#INCLURE{fond=prive/squelettes/contenu/#GET{url_edit},redirect='',env,retourajax=oui},#REM|sinon_interdire_acces})]
+<//B_envois_ponctuel>

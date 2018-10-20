@@ -1,0 +1,13 @@
+<script type="text/javascript">
+/*<![CDATA[*/
+	(function($){
+		var $formulaire = $('.formulaire_editer_liens-auteurs'),
+			$quantites = $formulaire.find('input[name="quantite[]"]');
+			
+		$quantites.change(function(){
+			var hidden = $(this).parent().siblings().find('input[type="hidden"]');
+			hidden.val($(this).val());
+		});
+	})(jQuery);
+/*]]>*/
+</script>

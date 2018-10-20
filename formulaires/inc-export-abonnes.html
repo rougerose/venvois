@@ -1,0 +1,82 @@
+<B_abonnes>
+	#ANCRE_PAGINATION
+	<div class="liste-objets vacarme envois abonnements">
+		<input id="filtrer" type="hidden" name="filtrer" value="#ENV{filtrer}">
+		<input id="echeance" type="hidden" name="echeance" value="#ENV{echeance}">
+		<input id="hors_echeance" type="hidden" name="hors_echeance" value="#ENV{hors_echeance}">
+		<table class="spip liste">
+			[<caption><strong class="caption">[Vacarme (#ENV{numero_reference}) : ](#GRAND_TOTAL|singulier_ou_pluriel{abonnement:info_1_abonnement,abonnement:info_nb_abonnements})</strong></caption>]
+			<thead>
+				<tr class="first_row">
+					<th class="">#</th>
+					<th class="">Statut</th>
+					<th class="titre"><:abonnements_offre:titre_abonnements_offre:></th>
+					<th class="nom"><:abonnement:info_nom_auteur:></th>
+					<th class='requis'>Infos requises</th>
+					<th class="numero_debut"><:abonnement:champ_numero_debut_label:></th>
+					<th class="numero_fin"><:abonnement:champ_numero_fin_label:></th>
+					<th class="selection" scope="col"><:envois_commande:exporter_destinataire:>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			<BOUCLE_abonnes(ABONNEMENTS){tout}{id_abonnement IN #ENV{abonnements}}{tri #ENV{par, id_abonnement}}{pagination #ENV{nb, 20}}>
+				<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
+					<td class=""><a href="[(#ID_ABONNEMENT|generer_url_entite{abonnement})]">#ID_ABONNEMENT</a></td>
+					<td class="[statut_(#STATUT)]"><:abonnement:texte_statut_{=#STATUT}:></td>
+					<td class="titre">[(#INFO_TITRE{abonnements_offre, #ID_ABONNEMENTS_OFFRE})]</td>
+					<td class="nom"><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]">[(#INFO_NOM{auteur, #ID_AUTEUR})]</a></td>
+					<td class="requis">#INCLURE{fond=prive/squelettes/inclure/export-auteur-requis, id_auteur}</td>
+					<td class="numero_debut">[(#NUMERO_DEBUT|replace{'v', ''}|ltrim{'0'})]</td>
+					<td class="numero_fin">[(#NUMERO_FIN|replace{'v', ''}|ltrim{'0'})]</td>
+					<td class="selection">
+						<div class="check">
+							[(#ID_ABONNEMENT|in_any{#ENV{ids_abonnement}}|oui)#ID_ABONNEMENT)]
+							<input type="checkbox" class="checkbox" name="ids_abonnement\[\]" value="#ID_ABONNEMENT"
+							[(#ID_ABONNEMENT|in_any{#ENV{ids_abonnement}}) checked="checked"] />
+						</div>
+					</td>
+				</tr>
+			</BOUCLE_abonnes>
+			</tbody>
+		</table>
+		[<p class="pagination">(#PAGINATION{prive})</p>]
+		<script type="text/javascript">
+		/*<![CDATA[*/
+			(function($){
+				var $form = $(".formulaire_export_envois_abonnements"),
+					$checkboxs = $form.find('input[type=checkbox]'),
+					$ids = $form.find('#ids'),
+					_ids = [];
+				
+				// ids
+				if ($ids.val().length) {
+					var ids = JSON.parse($ids.val());
+					ids.forEach(function(el){
+						_ids.push(el);
+						$checkboxs.each(function(){
+							if (el == $(this).attr('value')) {
+								$(this).prop('checked', true);
+							}
+						});
+					});
+				}
+				
+				$checkboxs.click(function(){
+					var val = $(this).val();
+					if ($(this).prop('checked')) {
+						_ids.push(val);
+					} else {
+						var index = _ids.indexOf(val);
+						if (index > -1) {
+							_ids.splice(index, 1);
+						}
+					}
+					var ids = JSON.stringify(_ids);
+					$ids.val('').val(ids);
+				});
+			})(jQuery);
+		/*]]>*/
+		</script>
+	</div>
+</B_abonnes>

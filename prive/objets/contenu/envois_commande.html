@@ -1,0 +1,22 @@
+<BOUCLE_envois_commande(ENVOIS_COMMANDES){id_envois_commande}{statut?}>
+[<div class="champ contenu_id_commande[ (#ID_COMMANDE*|strlen|?{'',vide})]">
+	<label><:envois_commande:champ_id_commande_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{id_commande} id_commande">(#ID_COMMANDE)</span>
+</div>]
+
+[<div class="champ contenu_date[ (#DATE*|strlen|?{'',vide})]">
+	<label><:envois_commande:champ_date_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{date} date">(#DATE)</span>
+</div>]
+
+[<div class="champ contenu_date_envoi[ (#DATE_ENVOI*|strlen|?{'',vide})]">
+	<label><:envois_commande:champ_date_envoi_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{date_envoi} date_envoi">(#DATE_ENVOI)</span>
+</div>]
+
+[<div class="champ contenu_descriptif[ (#DESCRIPTIF*|strlen|?{'',vide})]">
+	<label><:envois_commande:champ_descriptif_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{descriptif} descriptif">(#DESCRIPTIF)</span>
+</div>]
+
+</BOUCLE_envois_commande>

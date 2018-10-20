@@ -1,0 +1,8 @@
+#FORMULAIRE_RECHERCHE_ECRIRE{#SELF,ajax}
+<div class="nettoyeur"></div>
+
+<INCLURE{fond=prive/objets/liste/envois_ponctuels, env, ajax, sinon=<:envois_ponctuel:info_aucun_envois_ponctuel:>}>
+
+[(#AUTORISER{creer,envois_ponctuel})
+	[(#URL_ECRIRE{envois_ponctuel_edit,new=oui}|icone_verticale{<:envois_ponctuel:icone_creer_envois_ponctuel:>,envois_ponctuel,new,right})]
+]

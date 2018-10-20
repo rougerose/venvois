@@ -1,0 +1,41 @@
+<paquet
+	prefix="venvois"
+	categorie="divers"
+	version="1.1.0"
+	etat="dev"
+	compatibilite="[3.2.1;3.2.*]"
+	logo="prive/themes/spip/images/venvois-64.png"
+	documentation=""
+	schema="1.0.1" 
+>
+	<!--
+		Paquet généré le 2018-07-28 11:13:47
+	-->
+
+	<nom>Vacarme : envois</nom>
+	<!-- Gestion des envois -->
+
+	<auteur lien='http://rouge-rose.net'>Christophe Le Drean</auteur>
+
+	<licence>GNU/GPL</licence>
+	<necessite nom="saisies" compatibilite="[2.4.0;]" />
+
+	<pipeline nom="autoriser" inclure="venvois_autorisations.php" /> 
+
+	<pipeline nom="declarer_tables_objets_sql" inclure="base/venvois.php" /> 
+	<pipeline nom="declarer_tables_interfaces" inclure="base/venvois.php" /> 
+	<pipeline nom="declarer_tables_auxiliaires" inclure="base/venvois.php" /> 
+	<pipeline nom="affiche_milieu" inclure="venvois_pipelines.php" /> 
+	<pipeline nom="affiche_auteurs_interventions" inclure="venvois_pipelines.php" /> 
+	<pipeline nom="optimiser_base_disparus" inclure="venvois_pipelines.php" />
+	<pipeline nom="formulaire_fond" inclure="venvois_pipelines.php" />
+	<pipeline nom="formulaire_charger" inclure="venvois_pipelines.php" />
+
+	<menu nom="envois_commandes" titre="envois_commande:titre_envois_commandes" parent="menu_activite" icone="images/envois_commande-16.png" action="envois_commandes" />
+	<menu nom="envois_abonnements" titre="envois_abonnement:titre_envois_abonnements" parent="menu_activite" icone="images/envois_commande-16.png" action="envois_abonnements" />
+	<menu nom="envois_ponctuels" titre="envois_ponctuel:titre_envois_ponctuels" parent="menu_activite" icone="images/envois_ponctuel-16.png" action="envois_ponctuels" />
+	
+	<spip compatibilite="[3.2.0;3.2.*]">
+		<style type="prive" source="css/venvois_prive.css" />
+	</spip>
+</paquet>
