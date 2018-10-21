@@ -47,7 +47,6 @@ function exporter_auteur_dist($id_auteur = 0) {
 	if (
 		$export_contact['nom']
 		and $export_contact['prenom'] == ''
-		and $export_organisation['service']
 		and $export_organisation['organisation'] == ''
 	) {
 		$export_organisation['organisation'] = $export_contact['nom'];
