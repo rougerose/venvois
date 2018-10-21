@@ -44,6 +44,17 @@ function exporter_auteur_dist($id_auteur = 0) {
 	$export_organisation['service'] = $adresse['service'];
 	unset($adresse_cles['organisation'], $adresse_cles['service']);
 	
+	if (
+		$export_contact['nom']
+		and $export_contact['prenom'] == ''
+		and $export_organisation['service']
+		and $export_organisation['organisation'] == ''
+	) {
+		$export_organisation['organisation'] = $export_contact['nom'];
+		$export_contact['nom'] = '';
+		$export_contact['civilite'] = '';
+	}
+	
 	foreach ($adresse_cles as $cle => $v) {
 		if ($cle == 'pays' and $code_pays = $adresse[$cle]) {
 			$nom_pays = sql_getfetsel('nom', 'spip_pays', 'code='.sql_quote($code_pays));
