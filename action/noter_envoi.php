@@ -34,12 +34,14 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 			include_spip('inc/vnumeros');
 			$numeros_debut_fin = array($abonnement['numero_debut'], $abonnement['numero_fin']);
 			$liste_numeros = vnumeros_lister_disponibles($numeros_debut_fin);
-		
+			
+			$idauteur = intval($abonnement['id_auteur']);
+			
 			autoriser_exception('creer', 'envois_commande', '');
 			foreach ($liste_numeros as $numero => $rubrique) {
 				$set = array(
 					'id_commande' => intval($id_commande),
-					'id_auteur' => intval($abonnement['id_auteur']), // auteur de l'abonnement 
+					'id_auteur' => $idauteur, // auteur de l'abonnement 
 					'descriptif' => generer_info_entite($rubrique['id_rubrique'], 'rubrique', 'titre'),
 					'statut' => 'attente'
 				);
@@ -51,7 +53,7 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 				);
 				objet_associer(
 					array('envois_commande' => $id_envois_commande), 
-					array('auteur' => $id_auteur)
+					array('auteur' => $idauteur)
 				);
 			}
 			autoriser_exception('creer', 'envois_commande', '', false);
@@ -71,7 +73,7 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 					'statut' => 'attente'
 				);
 				$id_envois_commande = objet_inserer('envois_commande', null, $set);
-				//objet_associer(array('auteur' => $id_auteur), array('envois_commande' => $id_envois_commande));
+				
 				objet_associer(
 					array('envois_commande' => $id_envois_commande), 
 					array('commandes_detail' => $detail['id_commandes_detail'])
