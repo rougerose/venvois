@@ -1,7 +1,7 @@
 <paquet
 	prefix="venvois"
 	categorie="divers"
-	version="1.2.2"
+	version="1.2.3"
 	etat="dev"
 	compatibilite="[3.2.1;3.2.*]"
 	logo="prive/themes/spip/images/venvois-64.png"
