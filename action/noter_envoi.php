@@ -39,7 +39,7 @@ function action_noter_envoi($id_commande, $objet, $id_objet) {
 			foreach ($liste_numeros as $numero => $rubrique) {
 				$set = array(
 					'id_commande' => intval($id_commande),
-					'id_auteur' => intval($id_auteur),
+					'id_auteur' => intval($abonnement['id_auteur']), // auteur de l'abonnement 
 					'descriptif' => generer_info_entite($rubrique['id_rubrique'], 'rubrique', 'titre'),
 					'statut' => 'attente'
 				);
