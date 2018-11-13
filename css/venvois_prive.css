@@ -24,6 +24,11 @@
 	.liste-objets.vacarme .statut_abandon {
 		background-color: #ff0000;
 	}
+	
+	.liste-objets.vacarme .statut_poubelle {
+		background-color: #000;
+		color: #fff;
+	}
 
 	/* quantite */
 	.formulaire_spip .quantite .saisie_input {

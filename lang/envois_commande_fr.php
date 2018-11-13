@@ -73,6 +73,7 @@ L'export permet d'obtenir :
 	'texte_statut_attente' => 'En attente',
 	'texte_statut_envoye' => 'Envoyé',
 	'texte_statut_abandon' => 'Abandonné',
+	'texte_statut_poubelle' => 'Supprimé',
 	'titre_envois_commande' => 'Envois de commande',
 	'titre_envois_commandes' => 'Envois de commandes',
 	'titre_envois_commandes_rubrique' => 'Envois de commande de la rubrique',
