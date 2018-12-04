@@ -116,7 +116,12 @@ function exporter_abonnements($abonnements, $numero_reference) {
 	
 	foreach ($abonnements as $ids) {
 		$id_auteur = intval($ids['id_auteur']);
-		$export[] = $export_auteur($id_auteur);
+		
+		// Données relatives à l'auteur
+		$export[$id_auteur] = $export_auteur($id_auteur);
+		
+		// Ajouter l'article à envoyer en première colonne du tableau
+		$export[$id_auteur] = array_merge(array('descriptif' => "Vacarme $numero_reference"), $export[$id_auteur]);
 	}
 	
 	if (count($export)) {

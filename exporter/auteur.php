@@ -18,25 +18,23 @@ function exporter_auteur_dist($id_auteur = 0) {
 	}
 	
 	// contact
-	$contact = sql_fetsel('civilite, nom, prenom', 'spip_contacts', 'id_auteur='.$id_auteur);
+	$contact = sql_fetsel('nom, prenom', 'spip_contacts', 'id_auteur='.$id_auteur);
 	$auteur = sql_fetsel('*', 'spip_auteurs', 'id_auteur='.$id_auteur);
 	
 	if ($contact) {
-		$export_contact['civilite'] = ($contact['civilite']) ? _T('vprofils:info_civilite_'.$contact['civilite']) : ''; 
-		$export_contact['nom'] = $contact['nom'];
 		$export_contact['prenom'] = $contact['prenom'];
+		$export_contact['nom'] = $contact['nom'];
 		$export_supplement['email'] = ($auteur['email']) ? $auteur['email'] : '';
 	} else {
 		$auteur = sql_fetsel('*', 'spip_auteurs', 'id_auteur='.$id_auteur);
-		$export_contact['civilite'] = '';
-		$export_contact['nom'] = nom($auteur['nom']);
 		$export_contact['prenom'] = prenom($auteur['nom']);
+		$export_contact['nom'] = nom($auteur['nom']);
 		$export_supplement['email'] = ($auteur['email']) ? $auteur['email'] : '';
 	}
 	
 	// adresse
 	include_spip('inc/filtres');
-	$adresse_cles = array_flip(array('organisation', 'service', 'voie', 'complement', 'boite_postale', 'code_postal', 'ville', 'region', 'pays', 'code_facteur'));
+	$adresse_cles = array_flip(array('organisation', 'service', 'complement', 'voie', 'boite_postale', 'code_postal', 'ville', 'region', 'code_facteur', 'pays'));
 	
 	$adresse = sql_fetsel('*', 'spip_adresses AS adresses INNER JOIN spip_adresses_liens AS L1 ON (L1.id_adresse = adresses.id_adresse)', 'L1.id_objet='.$id_auteur.' AND L1.objet='.sql_quote('auteur'));
 	
@@ -51,7 +49,6 @@ function exporter_auteur_dist($id_auteur = 0) {
 	) {
 		$export_organisation['organisation'] = $export_contact['nom'];
 		$export_contact['nom'] = '';
-		$export_contact['civilite'] = '';
 	}
 	
 	foreach ($adresse_cles as $cle => $v) {
@@ -65,6 +62,30 @@ function exporter_auteur_dist($id_auteur = 0) {
 	}
 	
 	$export = array_merge($export_organisation, $export_contact, $export_adresse, $export_supplement);
+	
+	
+	// Formater les données
+	$export['nom'] = (strlen($export['nom'])) ? mb_strtoupper($export['nom']) : '';
+	
+	$export['prenom'] = (strlen($export['prenom'])) ? ucwords($export['prenom']) : '';
+	
+	$export['organisation'] = (strlen($export['organisation'])) ? mb_strtoupper($export['organisation']) : '';
+	
+	$export['service'] = (strlen($export['service'])) ?  mb_strtoupper($export['service']) : '';
+
+	$export['complement'] = (strlen($export['complement'])) ? mb_strtoupper($export['complement']) : '';
+	
+	$export['voie'] = (strlen($export['voie'])) ? mb_strtoupper($export['voie']) : '';
+	
+	$export['boite_postale'] = (strlen($export['boite_postale'])) ? mb_strtoupper($export['boite_postale']) : '';
+	
+	$export['ville'] = (strlen($export['ville'])) ? mb_strtoupper($export['ville']) : '';
+	
+	$export['region'] = (strlen($export['region'])) ? mb_strtoupper($export['region']) : '';
+	
+	if (strlen($export['pays'])) {
+		$export['pays'] = ($export['pays'] == 'France') ? '' : mb_strtoupper($export['pays']);
+	}
 	
 	return $export;
 }

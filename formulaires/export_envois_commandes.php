@@ -49,8 +49,11 @@ function formulaires_export_envois_commandes_traiter_dist($redirect = '', $statu
 		}
 		
 		if ($id_auteur) {
+			// Données relatives à l'auteur
 			$export[$id_envois_commande] = $exporter_auteur($id_auteur);
-			$export[$id_envois_commande]['descriptif'] = $envois_commande['descriptif'];
+			
+			// Ajouter en première position l'article à envoyer
+			$export[$id_envois_commande] = array_merge(array('descriptif' => $envois_commande['descriptif']), $export[$id_envois_commande]);
 		}
 	}
 	
