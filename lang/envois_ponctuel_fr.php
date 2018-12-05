@@ -25,12 +25,12 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'exporter_envois_ponctuel' => "Exporter cette liste",
 
 	// I
-	'icone_creer_envois_ponctuel' => 'Créer un envoi ponctuel',
-	'icone_modifier_envois_ponctuel' => 'Modifier cet envoi ponctuel',
-	'info_1_envois_ponctuel' => 'Un envoi ponctuel',
-	'info_aucun_envois_ponctuel' => 'Aucun envoi ponctuel',
+	'icone_creer_envois_ponctuel' => "Créer une liste d'envois",
+	'icone_modifier_envois_ponctuel' => 'Modifier cette liste d\'envois',
+	'info_1_envois_ponctuel' => 'Une liste d\'envois',
+	'info_aucun_envois_ponctuel' => 'Aucune liste d\'envois',
 	'info_envois_ponctuels_auteur' => 'Les envois ponctuels de cet auteur',
-	'info_nb_envois_ponctuels' => '@nb@ d\'envois ponctuels',
+	'info_nb_envois_ponctuels' => '@nb@ liste d\'envois',
 	'info_exemplaire_1' => "1 ex.",
 	'info_exemplaire_nb' => "@nb@ ex.",
 
