@@ -1,5 +1,6 @@
 <BOUCLE_export_auteur_requis(AUTEURS){id_auteur}{tout}>
 	#SET{requis, #ARRAY}
+	#SET{code_facteur, '0000'}
 	<BOUCLE_contact(CONTACTS){id_auteur}>
 		[(#SET{requis, #GET{requis}|push{#ARRAY{contact, #ID_CONTACT}}})]
 	</BOUCLE_contact>

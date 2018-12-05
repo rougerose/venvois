@@ -46,23 +46,8 @@ a mis a jour la valeur avec la page reelle]
 		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#NOM**|initiale|=={#ENV{i}}|?{on}|unique)][(#ID_AUTEUR|=={#ENV{id_lien_ajoute}}|oui)append]">
 			<td class='statut'>[(#STATUT|puce_statut{auteur})]</td>
 			<td class='nom[ (#NOM|non)vide]'><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]"[ title="(#BIO*|couper{200}|attribut_html)"]>[(#RANG). ][(#NOM|sinon{<:texte_vide:>})]</a></td>
-			#SET{requis, #ARRAY}
-			<BOUCLE_contact(CONTACTS){id_auteur}>
-				[(#SET{requis, #GET{requis}|push{#ARRAY{contact, #ID_CONTACT}}})]
-			</BOUCLE_contact>
-				[(#SET{requis, #GET{requis}|push{#ARRAY{contact, 0}}})]
-			<//B_contact>
-			<BOUCLE_adresse(ADRESSES){id_auteur}>
-				[(#SET{requis, #GET{requis}|push{#ARRAY{adresse, #ID_ADRESSE}}})]
-				[(#SET{requis, #GET{requis}|push{#ARRAY{code, #CODE_FACTEUR|sinon{0}}}})]
-			</BOUCLE_adresse>
-				[(#SET{requis, #GET{requis}|push{#ARRAY{adresse, 0}}})]
-				[(#SET{requis, #GET{requis}|push{#ARRAY{code, 0}}})]
-			<//B_adresse>
 			<td class="requis">
-				<span class="[(#GET{requis/0/contact}|?{present,absent})]" title="[(#GET{requis/0/contact}|?{<:venvois:info_auteur_contact_present:>,<:venvois:info_auteur_contact_absent:>})]"><:venvois:info_auteur_contact_abr:></span>
-				<span class="[(#GET{requis/1/adresse}|?{present,absent})]" title="[(#GET{requis/1/adresse}|?{<:venvois:info_auteur_adresse_presente:>,<:venvois:info_auteur_adresse_absente:>})]"><:venvois:info_auteur_adresse_abr:></span>
-				<span class="[(#GET{requis/2/code}|?{present,absent})]" title="[(#GET{requis/2/code}|?{<:venvois:info_auteur_code_facteur_present:>,<:venvois:info_auteur_code_facteur_absent:>})]"><:venvois:info_auteur_code_facteur_abr:></span>
+				<INCLURE{fond=prive/squelettes/inclure/export-auteur-requis, id_auteur}/>
 			</td>
 			<BOUCLE_quantite(ENVOIS_PONCTUELS envois_ponctuels_liens){id_envois_ponctuel=#ENV{id_objet}}{objet=auteur}{id_objet=#ID_AUTEUR}>
 				<td class='quantite'>[(#QUANTITE|singulier_ou_pluriel{envois_ponctuel:info_exemplaire_1, envois_ponctuel:info_exemplaire_nb})]</td>
