@@ -32,8 +32,7 @@ function action_exporter_envois_ponctuel($id_objet = null, $objet = null) {
 			$export = array();
 			
 			foreach ($ids_auteurs as $id_auteur) {
-				$export[$id_auteur] = $exporter_auteur($id_auteur);
-				$export[$id_auteur] = array_merge(array('descriptif' => ''), $export[$id_auteur]);
+				$export[] = array('descriptif' => '') + $exporter_auteur($id_auteur);
 			}
 		}
 		if (count($export)) {
