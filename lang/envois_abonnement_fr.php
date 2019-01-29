@@ -20,6 +20,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_filtre_echeance_egale' => 'Échéance ',
 	'info_filtre_echeance_hors' => 'Hors échéance ',
 	'info_abonne_aucun' => "Aucun abonné",
+	'info_filtre_renouvellement_avec' => "Avec renouvellement",
+	'info_filtre_renouvellement_sans' => "Sans renouvellement",
 	
 	// T
 	'titre_envois_abonnements' => "Envois d'abonnements",

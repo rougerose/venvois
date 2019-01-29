@@ -13,11 +13,35 @@
 </BOUCLE_tous>
 <BOUCLE_echeance(CONDITION){si #ENV{echeance}|oui}>
 	#SET{abonnements, #ARRAY}
+	#SET{abos_avec_renouvellement, #ARRAY}
+	#SET{abos_sans_renouvellement, #ARRAY}
 	<B_abonnements_echeance>
 		<BOUCLE_abonnements_echeance(ABONNEMENTS){statut IN actif, resilie}{numero_debut<=#ENV{numero_reference}}{numero_fin>=#ENV{numero_reference}}{numero_fin=#ENV{echeance}}>
 			[(#SET{abonnements, #GET{abonnements}|push{#ID_ABONNEMENT}})]
 		</BOUCLE_abonnements_echeance>
-		<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abonnements}, par=id_abonnement, env} />
+		
+		#SET{abos_sans_renouvellement, #GET{abonnements}}
+		
+		<BOUCLE_abo(ABONNEMENTS){tout}{id_abonnement IN #GET{abonnements}}>
+			#SET{idabonnement, #ID_ABONNEMENT}
+			<BOUCLE_abonne_actif(AUTEURS){tout}{id_auteur}>
+				<BOUCLE_abo_actif(ABONNEMENTS){id_auteur}{statut=actif}>
+					#SET{abos_avec_renouvellement, #GET{abos_avec_renouvellement}|push{#GET{idabonnement}}}
+				</BOUCLE_abo_actif>
+				[(#SET{abos_sans_renouvellement, #GET{abos_sans_renouvellement}|array_diff{#ARRAY{0, #GET{idabonnement}}}})]
+				</B_abo_actif>
+			</BOUCLE_abonne_actif>
+		</BOUCLE_abo>
+		
+		<BOUCLE_sans_renouvellement(CONDITION){si #ENV{renouvellement}|=={sans}}>
+			<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abos_sans_renouvellement}, par=id_abonnement, env} />
+		</BOUCLE_sans_renouvellement>
+		<BOUCLE_avec_renouvellement(CONDITION){si #ENV{renouvellement}|=={avec}}>
+			<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abos_avec_renouvellement}, par=id_abonnement, env} />
+		</BOUCLE_avec_renouvellement>
+		<BOUCLE_tous_renouvellement(CONDITION){si #ENV{renouvellement}|=={non}}>
+			<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abonnements}, par=id_abonnement, env} />
+		</BOUCLE_tous_renouvellement>
 	</B_abonnements_echeance>
 		#BOITE_OUVRIR{'','error'}
 		<p><:envois_abonnement:info_abonne_aucun:></p>
