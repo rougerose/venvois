@@ -4,6 +4,7 @@
 		<input id="filtrer" type="hidden" name="filtrer" value="#ENV{filtrer}">
 		<input id="echeance" type="hidden" name="echeance" value="#ENV{echeance}">
 		<input id="hors_echeance" type="hidden" name="hors_echeance" value="#ENV{hors_echeance}">
+		<input id="renouvellement" type="hidden" name="renouvellement" value="#ENV{renouvellement}">
 		<table class="spip liste">
 			[<caption><strong class="caption">[Vacarme (#ENV{numero_reference}) : ](#GRAND_TOTAL|singulier_ou_pluriel{abonnement:info_1_abonnement,abonnement:info_nb_abonnements})</strong></caption>]
 			<thead>
@@ -80,3 +81,13 @@
 		</script>
 	</div>
 </B_abonnes>
+	<div class="liste-objets vacarme envois abonnements">
+		<input id="filtrer" type="hidden" name="filtrer" value="#ENV{filtrer}">
+		<input id="echeance" type="hidden" name="echeance" value="#ENV{echeance}">
+		<input id="hors_echeance" type="hidden" name="hors_echeance" value="#ENV{hors_echeance}">
+		<input id="renouvellement" type="hidden" name="renouvellement" value="#ENV{renouvellement}">
+		#BOITE_OUVRIR{'','error'}
+		<p><:envois_abonnement:info_abonne_aucun:></p>
+		#BOITE_FERMER
+	</div>
+<//B_abonnes>

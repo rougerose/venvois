@@ -11,7 +11,8 @@ function formulaires_export_envois_abonnements_charger_dist($redirect = '') {
 		'ids' => _request('ids'),
 		'filtrer' => _request('filtrer'),
 		'echeance' => _request('echeance'),
-		'hors_echeance' => _request('hors_echeance')
+		'hors_echeance' => _request('hors_echeance'),
+		'renouvellement' => _request('renouvellement')
 	);
 	
 	return $valeurs;
@@ -34,9 +35,6 @@ function formulaires_export_envois_abonnements_verifier_dist($redirect = '') {
 
 
 function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
-	// if ($redirect) {
-	// 	refuser_traiter_formulaire_ajax();
-	// }
 	$res = array();
 	$ids = array();
 		
@@ -49,6 +47,7 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 			$redirection = parametre_url($redirect, 'filtrer', '');
 			$redirection = parametre_url($redirection, 'echeance', '');
 			$redirection = parametre_url($redirection, 'hors_echeance', '');
+			$redirection = parametre_url($redirection, 'renouvellement', '');
 			$redirection = parametre_url($redirection, 'numero_reference', $numero_reference);
 			$res['redirect'] = $redirection;
 		}
@@ -72,6 +71,7 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 		$filtrer = _request('filtrer');
 		$echeance = _request('echeance');
 		$hors_echeance = _request('hors_echeance');
+		$renouvellement = _request('renouvellement');
 		
 		if ($filtrer) {
 			if ($echeance) {
@@ -84,14 +84,35 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 		}
 		
 		$ids = sql_allfetsel('id_abonnement, id_auteur', 'spip_abonnements', $where);
+		
+		if ($renouvellement and $renouvellement != 'tous') {
+			$abos_renouvellement = array();
+			$abos_echus = array();
+			
+			foreach ($ids as $_ids_) {
+				$id_auteur = $_ids_['id_auteur'];
+				$id_abonnement = $_ids_['id_abonnement'];
+
+				if (sql_countsel('spip_abonnements', array("id_auteur=$id_auteur", "statut=".sql_quote('actif'), "id_abonnement!=$id_abonnement", "numero_debut >".sql_quote($numero_reference)))) {
+					$abos_renouvellement[] = array('id_auteur' => $id_auteur, 'id_abonnement' => $id_abonnement);
+				} else {
+					$abos_echus[] = array('id_auteur' => $id_auteur, 'id_abonnement' => $id_abonnement);
+				}
+			}
+			
+			if ($renouvellement == 'sans') {
+				$ids = $abos_echus;
+			}
+			
+			if ($renouvellement == 'avec') {
+				$ids = $abos_renouvellement;
+			}
+		}
 	}
 	
 	if ($etape_export and !count($ids)) {
-		return $res['message_erreur'] = _T('envois_commande:formulaire_export_message_erreur_aucune_selection');
-		
+		$res['message_erreur'] = _T('envois_commande:formulaire_export_message_erreur_aucune_selection');
 	} elseif($etape_export and count($ids)) {
-		// $fichier_csv = exporter_abonnements($ids, $numero_reference);
-		
 		include_spip('inc/documents');
 		$repertoire_exports = sous_repertoire(_DIR_VAR, 'export_envois');
 		$url_source_csv = exporter_abonnements($ids, $numero_reference);
@@ -100,11 +121,8 @@ function formulaires_export_envois_abonnements_traiter_dist($redirect = '') {
 		$res['message_ok'] = "Le fichier d'export est disponible : <a href='$url_csv'>$nom_fichier_csv</a>";
 	}
 	
-	// if ($redirect) {
-	// 	$res['redirect'] = parametre_url($redirect, 'numero_reference', $numero_reference);
-	// }
-	
 	$res['editable'] = true;
+	
 	return $res;
 }
 

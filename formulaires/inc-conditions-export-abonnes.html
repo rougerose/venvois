@@ -20,33 +20,21 @@
 			[(#SET{abonnements, #GET{abonnements}|push{#ID_ABONNEMENT}})]
 		</BOUCLE_abonnements_echeance>
 		
-		#SET{abos_sans_renouvellement, #GET{abonnements}}
-		
 		<BOUCLE_abo(ABONNEMENTS){tout}{id_abonnement IN #GET{abonnements}}>
 			#SET{idabonnement, #ID_ABONNEMENT}
-			<BOUCLE_abonne_actif(AUTEURS){tout}{id_auteur}>
-				<BOUCLE_abo_actif(ABONNEMENTS){id_auteur}{statut=actif}>
-					#SET{abos_avec_renouvellement, #GET{abos_avec_renouvellement}|push{#GET{idabonnement}}}
-				</BOUCLE_abo_actif>
-				[(#SET{abos_sans_renouvellement, #GET{abos_sans_renouvellement}|array_diff{#ARRAY{0, #GET{idabonnement}}}})]
-				</B_abo_actif>
-			</BOUCLE_abonne_actif>
+			<BOUCLE_abonnements_auteur(ABONNEMENTS){id_auteur}{tout}{id_abonnement!=#GET{idabonnement}}{numero_debut>#ENV{numero_reference}}{statut=actif}>
+				[(#SET{abos_avec_renouvellement, #GET{abos_avec_renouvellement}|push{#GET{idabonnement}}})]
+			</BOUCLE_abonnements_auteur>
+				[(#SET{abos_sans_renouvellement, #GET{abos_sans_renouvellement}|push{#GET{idabonnement}}})]
+			<//B_abonnements_auteur>
 		</BOUCLE_abo>
 		
-		<BOUCLE_sans_renouvellement(CONDITION){si #ENV{renouvellement}|=={sans}}>
-			<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abos_sans_renouvellement}, par=id_abonnement, env} />
-		</BOUCLE_sans_renouvellement>
-		<BOUCLE_avec_renouvellement(CONDITION){si #ENV{renouvellement}|=={avec}}>
-			<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abos_avec_renouvellement}, par=id_abonnement, env} />
-		</BOUCLE_avec_renouvellement>
-		<BOUCLE_tous_renouvellement(CONDITION){si #ENV{renouvellement}|=={non}}>
-			<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abonnements}, par=id_abonnement, env} />
-		</BOUCLE_tous_renouvellement>
+		[(#ENV{renouvellement}|=={sans}|oui) #SET{abonnements, #GET{abos_sans_renouvellement}} ]
+		
+		[(#ENV{renouvellement}|=={avec}|oui) #SET{abonnements, #GET{abos_avec_renouvellement}} ]
 	</B_abonnements_echeance>
-		#BOITE_OUVRIR{'','error'}
-		<p><:envois_abonnement:info_abonne_aucun:></p>
-		#BOITE_FERMER
-	<//B_abonnements_echeance>
+
+	<INCLURE{fond=formulaires/inc-export-abonnes, abonnements=#GET{abonnements}, par=id_abonnement, env} />
 </BOUCLE_echeance>
 <BOUCLE_hors_echeance(CONDITION){si #ENV{hors_echeance}|oui}>
 	#SET{abonnements, #ARRAY}
